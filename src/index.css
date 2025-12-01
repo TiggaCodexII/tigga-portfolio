@@ -39,33 +39,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 217 33% 17%;
+    --background: 217 43% 10%;
     --foreground: 210 40% 98%;
-    --card: 217 33% 20%;
+    --card: 217 40% 15%;
     --card-foreground: 210 40% 98%;
-    --popover: 217 33% 20%;
+    --popover: 217 40% 15%;
     --popover-foreground: 210 40% 98%;
-    --primary: 221 83% 53%;
+    --primary: 221 83% 60%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 217 33% 25%;
+    --secondary: 217 40% 18%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 25%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 271 76% 53%;
+    --muted: 217 40% 18%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 265 70% 60%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 221 83% 53%;
-    --sidebar-background: 217 33% 20%;
+    --border: 217 40% 20%;
+    --input: 217 40% 18%;
+    --ring: 221 83% 60%;
+    --sidebar-background: 217 40% 15%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary: 221 83% 60%;
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 217 33% 25%;
+    --sidebar-accent: 217 40% 18%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 33% 25%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-border: 217 40% 20%;
+    --sidebar-ring: 221 83% 60%;
   }
 }
 
@@ -91,7 +91,7 @@ All colors MUST be HSL.
   }
   
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(217 33% 17%) 0%, hsl(221 83% 25%) 50%, hsl(217 33% 17%) 100%);
+    background: linear-gradient(180deg, hsl(217 43% 10%) 0%, hsl(265 40% 20%) 100%);
     position: relative;
   }
   
@@ -99,26 +99,25 @@ All colors MUST be HSL.
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 50%, hsl(221 83% 53% / 0.1), transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
+    background: radial-gradient(circle at 70% 30%, hsl(221 83% 60% / 0.15), transparent 50%);
   }
   
   .glow-effect {
-    box-shadow: 0 0 60px hsl(271 76% 53% / 0.4), 0 0 100px hsl(221 83% 53% / 0.2);
+    box-shadow: 0 0 40px hsl(221 83% 60% / 0.5), 0 0 80px hsl(265 70% 60% / 0.3);
     transition: box-shadow 0.3s ease;
   }
   
   .glow-effect:hover {
-    box-shadow: 0 0 80px hsl(271 76% 53% / 0.6), 0 0 120px hsl(221 83% 53% / 0.3);
+    box-shadow: 0 0 60px hsl(221 83% 60% / 0.7), 0 0 100px hsl(265 70% 60% / 0.4);
   }
   
   .card-glow {
-    box-shadow: 0 4px 20px hsl(217 33% 10% / 0.3);
+    box-shadow: 0 4px 20px hsl(217 43% 5% / 0.5);
     transition: all 0.3s ease;
   }
   
   .card-glow:hover {
-    box-shadow: 0 8px 40px hsl(221 83% 53% / 0.2), 0 0 60px hsl(271 76% 53% / 0.1);
+    box-shadow: 0 8px 40px hsl(221 83% 60% / 0.3), 0 0 60px hsl(265 70% 60% / 0.15);
     transform: translateY(-4px);
   }
   

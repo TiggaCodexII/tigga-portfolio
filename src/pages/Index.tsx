@@ -148,50 +148,49 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-fade-in">
-              <div className="flex items-center gap-3 text-2xl">
-                <span className="text-4xl animate-[wave_2s_ease-in-out_infinite]">👋</span>
-                <span className="text-muted-foreground font-light">Hi, I'm</span>
+      <section id="home" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-gradient pt-20 pb-12 px-4">
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+            <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-lg">
+                <span className="text-3xl">👋</span>
+                <span className="text-muted-foreground">Hi, I'm</span>
               </div>
               
-              <h1 className="text-6xl md:text-8xl font-bold text-foreground leading-tight">
-                Saad <span className="text-gradient">Olayinka</span>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+                Saad Olayinka
               </h1>
               
-              <p className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <p className="text-lg md:text-xl text-muted-foreground">
                 Frontend Developer & UI/UX Designer
               </p>
               
-              <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
+              <p className="text-sm md:text-base text-muted-foreground/80 max-w-md mx-auto md:mx-0">
                 I create sleek, high-performing digital experiences with modern design principles and clean, efficient code.
               </p>
               
-              <div className="flex flex-wrap gap-4 pt-6">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-wrap gap-3 pt-4 justify-center md:justify-start">
+                <Button size="default" className="bg-primary hover:bg-primary/90 rounded-full px-6">
                   <a href="#contact">Hire Me</a>
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 hover:bg-primary/10">
+                <Button size="default" variant="outline" className="rounded-full px-6 border-foreground/20 hover:bg-card">
                   View Resume
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 hover:bg-accent/10">
+                <Button size="default" variant="outline" className="rounded-full px-6 border-foreground/20 hover:bg-card">
                   <a href="#portfolio">My Work</a>
                 </Button>
               </div>
             </div>
             
-            <div className="flex justify-center animate-slide-in-right">
+            <div className="flex justify-center md:justify-end">
               <div className="relative">
-                <div className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden glow-effect border-4 border-primary/30 shadow-2xl">
+                <div className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden glow-effect border-4 border-primary/40 shadow-2xl">
                   <img 
                     src={projectImage} 
                     alt="Saad Olayinka" 
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full opacity-20 blur-2xl -z-10"></div>
               </div>
             </div>
           </div>
@@ -199,33 +198,27 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-32 px-4 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <div className="text-6xl mb-6 animate-bounce">👨‍💻</div>
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+      <section id="services" className="py-16 md:py-24 px-4 relative">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
               My Services
             </h2>
-            <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
-              Comprehensive digital solutions tailored to your needs
-            </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="p-8 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary transition-all duration-500 animate-fade-in card-glow group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="p-6 bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 card-glow text-center"
               >
-                <div className="text-primary mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                <div className="text-primary mb-4 flex justify-center">
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">
+                <h3 className="text-lg font-bold mb-3">
                   {service.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   {service.description}
                 </p>
               </Card>
@@ -235,63 +228,43 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="portfolio" className="py-32 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+      <section id="portfolio" className="py-16 md:py-24 px-4 relative">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
               My Projects
             </h2>
-            <p className="text-muted-foreground text-xl max-w-3xl mx-auto">
-              A showcase of my recent work and technical expertise
-            </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {projects.map((project, index) => (
               <Card
                 key={index}
-                className="bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-500 group animate-slide-in-left card-glow overflow-hidden relative"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 card-glow overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl -z-10 group-hover:scale-150 transition-transform duration-500"></div>
-                
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-40 overflow-hidden">
                   <img 
                     src={projectImage} 
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent"></div>
-                  <div className="absolute bottom-4 right-4 text-4xl transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
-                    {project.emoji}
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/70 to-transparent"></div>
                 </div>
                 
-                <div className="p-8">
-                
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+                <div className="p-5">
+                  <h3 className="text-lg font-bold mb-2">
                     {project.title}
                   </h3>
                   
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-sm text-muted-foreground mb-4">
                     {project.description}
                   </p>
                   
-                  {project.features && (
-                    <div className="mb-4 space-y-1">
-                      <p className="font-semibold text-sm mb-2">Key Features:</p>
-                      {project.features.map((feature, i) => (
-                        <p key={i} className="text-xs text-muted-foreground">• {feature}</p>
-                      ))}
-                    </div>
-                  )}
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech, i) => (
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tech.slice(0, 4).map((tech, i) => (
                       <span
                         key={i}
-                        className="text-xs px-2 py-1 bg-primary/10 text-primary rounded border border-primary/20"
+                        className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded"
                       >
                         {tech}
                       </span>
@@ -300,23 +273,23 @@ const Index = () => {
                   
                   <div className="flex gap-2">
                     {project.demoLink && (
-                      <Button size="sm" asChild>
+                      <Button size="sm" className="rounded-full text-xs h-8" asChild>
                         <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
-                          View Demo <ExternalLink className="w-3 h-3 ml-1" />
+                          Demo
                         </a>
                       </Button>
                     )}
                     {project.liveLink && (
-                      <Button size="sm" asChild>
+                      <Button size="sm" className="rounded-full text-xs h-8" asChild>
                         <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-                          Live <ExternalLink className="w-3 h-3 ml-1" />
+                          Live
                         </a>
                       </Button>
                     )}
                     {project.codeLink && (
-                      <Button size="sm" variant="outline" asChild>
+                      <Button size="sm" variant="outline" className="rounded-full text-xs h-8" asChild>
                         <a href={project.codeLink} target="_blank" rel="noopener noreferrer">
-                          Code <ExternalLink className="w-3 h-3 ml-1" />
+                          Code
                         </a>
                       </Button>
                     )}
@@ -329,44 +302,50 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 px-4 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background"></div>
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl p-12 md:p-16 card-glow">
-            <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
-              <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-primary/30 shadow-xl flex-shrink-0">
+      <section id="about" className="py-16 md:py-24 px-4 relative">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
+              About Me
+            </h2>
+          </div>
+          
+          <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-8 md:p-10 card-glow">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-3 border-primary/40 shadow-lg flex-shrink-0">
                 <img 
                   src={projectImage} 
                   alt="Saad Olayinka" 
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Hello, I'm Saad 👋
-              </h2>
-            </div>
-            
-            <div className="space-y-8 text-lg md:text-xl text-muted-foreground leading-relaxed">
-              <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                I'm a passionate <span className="text-primary font-semibold">Frontend Developer</span> and{' '}
-                <span className="text-accent font-semibold">UI/UX Designer</span> focused on creating seamless 
-                and visually engaging user experiences.
-              </p>
-              
-              <p className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                My approach combines modern design thinking with performance-driven development, 
-                ensuring every project looks stunning and works fast.
-              </p>
-              
-              <p className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                Beyond coding, I enjoy exploring new technologies, mentoring junior developers, 
-                and contributing to innovative projects that solve real problems.
-              </p>
-              
-              <div className="pt-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
-                  <a href="#contact">Let's Collaborate</a>
-                </Button>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                  Hello, I'm Saad 👋
+                </h3>
+                <div className="space-y-4 text-sm md:text-base text-muted-foreground">
+                  <p>
+                    I'm a passionate <span className="text-primary font-semibold">Frontend Developer</span> and{' '}
+                    <span className="text-accent font-semibold">UI/UX Designer</span> focused on creating seamless 
+                    and visually engaging user experiences.
+                  </p>
+                  
+                  <p>
+                    My approach combines modern design thinking with performance-driven development, 
+                    ensuring every project looks stunning and works fast.
+                  </p>
+                  
+                  <p>
+                    Beyond coding, I enjoy exploring new technologies, mentoring junior developers, 
+                    and contributing to innovative projects that solve real problems.
+                  </p>
+                </div>
+                
+                <div className="pt-6">
+                  <Button size="default" className="bg-primary hover:bg-primary/90 rounded-full px-6">
+                    <a href="#contact">Let's Collaborate</a>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -374,38 +353,31 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-32 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-background to-primary/5"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+      <section className="py-16 md:py-24 px-4 relative">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
               Testimonials
             </h2>
-            <p className="text-muted-foreground text-xl">What others say about working with me</p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4 md:space-y-6">
             {testimonials.map((testimonial, index) => (
               <Card
                 key={index}
-                className="p-10 bg-card/80 backdrop-blur-sm border-border/50 animate-slide-in-right card-glow hover:border-accent/50 group relative overflow-hidden"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className="p-6 md:p-8 bg-card/80 backdrop-blur-sm border-border/50 card-glow"
               >
-                <div className="absolute top-0 left-0 w-20 h-20 bg-accent/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500"></div>
-                
-                <div className="text-6xl text-accent/20 mb-4 relative z-10">"</div>
-                
-                <p className="text-muted-foreground mb-8 text-lg italic leading-relaxed relative z-10">
-                  {testimonial.content}
+                <p className="text-sm md:text-base text-muted-foreground mb-6 italic leading-relaxed">
+                  "{testimonial.content}"
                 </p>
                 
-                <div className="flex items-center gap-4 relative z-10">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-sm">
                     {testimonial.initials}
                   </div>
                   <div>
-                    <p className="font-bold text-lg">{testimonial.name}</p>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                    <p className="font-bold">{testimonial.name}</p>
+                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
                   </div>
                 </div>
               </Card>
@@ -415,144 +387,131 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 px-4 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-background to-background"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <section id="contact" className="py-16 md:py-24 px-4 relative">
+        <div className="max-w-3xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
               Get In Touch
             </h2>
-            <p className="text-xl font-semibold mb-3">Let's work together!</p>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              I'm available for freelance work, collaborations, or full-time roles. Drop me a message and I'll respond promptly.
+            <p className="text-sm md:text-base text-muted-foreground mb-6">
+              I'm available for freelance work, collaborations, or full-time roles. Drop me a message!
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-10">
-              <div className="group">
-                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
-                  <Mail className="w-6 h-6" />
-                  Email
-                </h3>
-                <p className="text-muted-foreground text-lg">saadolayinkatajudeen@gmail.com</p>
+          <Card className="p-6 md:p-8 bg-card/80 backdrop-blur-sm border-border/50 card-glow">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <Input
+                  placeholder="Your Name *"
+                  {...register("name")}
+                  className="bg-background border-border h-11"
+                />
+                {errors.name && (
+                  <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
+                )}
               </div>
               
-              <div className="group">
-                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
-                  📞 Phone
-                </h3>
-                <p className="text-muted-foreground text-lg">+234(0)8142696998</p>
-                <p className="text-muted-foreground text-lg">+234(0)8114965493</p>
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Your Email *"
+                  {...register("email")}
+                  className="bg-background border-border h-11"
+                />
+                {errors.email && (
+                  <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
+                )}
               </div>
               
-              <div className="group">
-                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
-                  📍 Location
-                </h3>
-                <p className="text-muted-foreground text-lg">Ilorin, Kwara State, Nigeria</p>
+              <div>
+                <Textarea
+                  placeholder="Your Message *"
+                  {...register("message")}
+                  className="bg-background border-border min-h-[120px] resize-none"
+                />
+                {errors.message && (
+                  <p className="text-destructive text-xs mt-1">{errors.message.message}</p>
+                )}
+              </div>
+              
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-primary hover:bg-primary/90 rounded-full h-11"
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </Button>
+            </form>
+            
+            <div className="mt-8 pt-6 border-t border-border space-y-4">
+              <div className="flex items-center gap-3 text-sm">
+                <Mail className="w-4 h-4 text-primary" />
+                <span className="text-muted-foreground">saadolayinkatajudeen@gmail.com</span>
+              </div>
+              
+              <div className="flex items-center gap-3 text-sm">
+                <span className="text-primary">📞</span>
+                <span className="text-muted-foreground">+234(0)8142696998</span>
+              </div>
+              
+              <div className="flex items-center gap-3 text-sm">
+                <span className="text-primary">📍</span>
+                <span className="text-muted-foreground">Ilorin, Kwara State, Nigeria</span>
               </div>
             </div>
-            
-            <Card className="p-10 bg-card/80 backdrop-blur-sm border-border/50 card-glow">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div>
-                  <Input
-                    placeholder="Your Name *"
-                    {...register("name")}
-                    className="bg-background border-border"
-                  />
-                  {errors.name && (
-                    <p className="text-destructive text-sm mt-1">{errors.name.message}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Your Email *"
-                    {...register("email")}
-                    className="bg-background border-border"
-                  />
-                  {errors.email && (
-                    <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
-                  )}
-                </div>
-                
-                <div>
-                  <Textarea
-                    placeholder="Your Message *"
-                    {...register("message")}
-                    className="bg-background border-border min-h-[150px]"
-                  />
-                  {errors.message && (
-                    <p className="text-destructive text-sm mt-1">{errors.message.message}</p>
-                  )}
-                </div>
-                
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </Card>
-          </div>
+          </Card>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-4 border-t border-border/50 bg-card/30 backdrop-blur-sm relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-10">
-            <div className="text-center md:text-left">
-              <p className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <footer className="py-12 px-4 border-t border-border/50 bg-card/30 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col items-center gap-6 text-center">
+            <div>
+              <p className="text-xl font-bold text-primary">
                 Saad Olayinka Tajudeen
               </p>
-              <p className="text-muted-foreground mt-3 text-lg">Frontend Developer & UI/UX Designer</p>
+              <p className="text-sm text-muted-foreground mt-1">Frontend Developer & UI/UX Designer</p>
             </div>
             
-            <div className="flex gap-6">
+            <div className="flex gap-4">
               <a
                 href="https://github.com/TiggaCodex"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
+                className="w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
               >
-                <Github className="w-5 h-5" />
+                <Github className="w-4 h-4" />
               </a>
               <a
                 href="https://www.linkedin.com/in/saad-olayinka-tajudeen-6372a9257"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
+                className="w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href="https://x.com/Savage_Tigga"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
+                className="w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
               >
-                <Twitter className="w-5 h-5" />
+                <Twitter className="w-4 h-4" />
               </a>
               <a
                 href={`https://wa.me/2348142696998`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-all hover:scale-110"
+                className="w-10 h-10 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-all"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-4 h-4" />
               </a>
             </div>
-          </div>
-          
-          <div className="text-center mt-12 text-muted-foreground">
-            © {new Date().getFullYear()} Saad Olayinka Tajudeen. All rights reserved.
+            
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} Saad Tigga. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>
