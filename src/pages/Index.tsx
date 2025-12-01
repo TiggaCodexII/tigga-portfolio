@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Github, Linkedin, Twitter, Mail, Code2, Palette, Users, Wrench, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import projectImage from "@/assets/lascotstudios-6.jpg";
 
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -246,65 +247,76 @@ const Index = () => {
             {projects.map((project, index) => (
               <Card
                 key={index}
-                className="p-8 bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-500 group animate-slide-in-left card-glow overflow-hidden relative"
+                className="bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-500 group animate-slide-in-left card-glow overflow-hidden relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl -z-10 group-hover:scale-150 transition-transform duration-500"></div>
                 
-                <div className="text-5xl mb-6 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
-                  {project.emoji}
+                <div className="relative h-56 overflow-hidden">
+                  <img 
+                    src={projectImage} 
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent"></div>
+                  <div className="absolute bottom-4 right-4 text-4xl transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
+                    {project.emoji}
+                  </div>
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
-                  {project.title}
-                </h3>
+                <div className="p-8">
                 
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {project.description}
-                </p>
-                
-                {project.features && (
-                  <div className="mb-4 space-y-1">
-                    <p className="font-semibold text-sm mb-2">Key Features:</p>
-                    {project.features.map((feature, i) => (
-                      <p key={i} className="text-xs text-muted-foreground">• {feature}</p>
+                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {project.description}
+                  </p>
+                  
+                  {project.features && (
+                    <div className="mb-4 space-y-1">
+                      <p className="font-semibold text-sm mb-2">Key Features:</p>
+                      {project.features.map((feature, i) => (
+                        <p key={i} className="text-xs text-muted-foreground">• {feature}</p>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.map((tech, i) => (
+                      <span
+                        key={i}
+                        className="text-xs px-2 py-1 bg-primary/10 text-primary rounded border border-primary/20"
+                      >
+                        {tech}
+                      </span>
                     ))}
                   </div>
-                )}
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="text-xs px-2 py-1 bg-primary/10 text-primary rounded border border-primary/20"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                
-                <div className="flex gap-2">
-                  {project.demoLink && (
-                    <Button size="sm" asChild>
-                      <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
-                        View Demo <ExternalLink className="w-3 h-3 ml-1" />
-                      </a>
-                    </Button>
-                  )}
-                  {project.liveLink && (
-                    <Button size="sm" asChild>
-                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-                        Live <ExternalLink className="w-3 h-3 ml-1" />
-                      </a>
-                    </Button>
-                  )}
-                  {project.codeLink && (
-                    <Button size="sm" variant="outline" asChild>
-                      <a href={project.codeLink} target="_blank" rel="noopener noreferrer">
-                        Code <ExternalLink className="w-3 h-3 ml-1" />
-                      </a>
-                    </Button>
-                  )}
+                  
+                  <div className="flex gap-2">
+                    {project.demoLink && (
+                      <Button size="sm" asChild>
+                        <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
+                          View Demo <ExternalLink className="w-3 h-3 ml-1" />
+                        </a>
+                      </Button>
+                    )}
+                    {project.liveLink && (
+                      <Button size="sm" asChild>
+                        <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
+                          Live <ExternalLink className="w-3 h-3 ml-1" />
+                        </a>
+                      </Button>
+                    )}
+                    {project.codeLink && (
+                      <Button size="sm" variant="outline" asChild>
+                        <a href={project.codeLink} target="_blank" rel="noopener noreferrer">
+                          Code <ExternalLink className="w-3 h-3 ml-1" />
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </Card>
             ))}
