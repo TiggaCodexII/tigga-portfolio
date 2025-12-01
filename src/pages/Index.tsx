@@ -184,8 +184,12 @@ const Index = () => {
             
             <div className="flex justify-center animate-slide-in-right">
               <div className="relative">
-                <div className="w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-sm flex items-center justify-center text-9xl glow-effect border-2 border-primary/30">
-                  👨‍💻
+                <div className="w-72 h-72 md:w-96 md:h-96 rounded-full overflow-hidden glow-effect border-4 border-primary/30 shadow-2xl">
+                  <img 
+                    src={projectImage} 
+                    alt="Saad Olayinka" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full opacity-20 blur-2xl -z-10"></div>
               </div>
@@ -329,8 +333,14 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background"></div>
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl p-12 md:p-16 card-glow">
-            <div className="flex items-center gap-4 mb-10">
-              <div className="text-6xl animate-bounce">👨‍💻</div>
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-10">
+              <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-primary/30 shadow-xl flex-shrink-0">
+                <img 
+                  src={projectImage} 
+                  alt="Saad Olayinka" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Hello, I'm Saad 👋
               </h2>
