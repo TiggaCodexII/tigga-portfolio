@@ -148,42 +148,45 @@ const Index = () => {
       
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-fade-in">
-              <div className="flex items-center gap-2 text-2xl">
-                <span>👋</span>
-                <span className="text-muted-foreground">Hi, I'm</span>
+            <div className="space-y-8 animate-fade-in">
+              <div className="flex items-center gap-3 text-2xl">
+                <span className="text-4xl animate-[wave_2s_ease-in-out_infinite]">👋</span>
+                <span className="text-muted-foreground font-light">Hi, I'm</span>
               </div>
               
-              <h1 className="text-6xl md:text-7xl font-bold text-foreground">
-                Saad Olayinka
+              <h1 className="text-6xl md:text-8xl font-bold text-foreground leading-tight">
+                Saad <span className="text-gradient">Olayinka</span>
               </h1>
               
-              <p className="text-xl md:text-2xl text-muted-foreground">
+              <p className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 Frontend Developer & UI/UX Designer
               </p>
               
-              <p className="text-lg text-muted-foreground max-w-xl">
+              <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
                 I create sleek, high-performing digital experiences with modern design principles and clean, efficient code.
               </p>
               
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
+              <div className="flex flex-wrap gap-4 pt-6">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
                   <a href="#contact">Hire Me</a>
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 hover:bg-primary/10">
                   View Resume
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-2 hover:bg-accent/10">
                   <a href="#portfolio">My Work</a>
                 </Button>
               </div>
             </div>
             
             <div className="flex justify-center animate-slide-in-right">
-              <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-card flex items-center justify-center text-8xl glow-effect">
-                👨‍💻
+              <div className="relative">
+                <div className="w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 backdrop-blur-sm flex items-center justify-center text-9xl glow-effect border-2 border-primary/30">
+                  👨‍💻
+                </div>
+                <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full opacity-20 blur-2xl -z-10"></div>
               </div>
             </div>
           </div>
@@ -191,24 +194,35 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="text-5xl mb-4">👨‍💻</div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">My Services</h2>
-            <p className="text-muted-foreground text-lg">Comprehensive digital solutions tailored to your needs</p>
+      <section id="services" className="py-32 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <div className="text-6xl mb-6 animate-bounce">👨‍💻</div>
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              My Services
+            </h2>
+            <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
+              Comprehensive digital solutions tailored to your needs
+            </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="p-8 bg-card border-border hover:border-primary transition-all duration-300 animate-fade-in"
+                className="p-8 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary transition-all duration-500 animate-fade-in card-glow group"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-primary mb-4">{service.icon}</div>
-                <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
+                <div className="text-primary mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors">
+                  {service.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {service.description}
+                </p>
               </Card>
             ))}
           </div>
@@ -216,27 +230,36 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="portfolio" className="py-20 px-4 bg-card/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">My Projects</h2>
-            <p className="text-muted-foreground text-lg">A showcase of my recent work and technical expertise</p>
+      <section id="portfolio" className="py-32 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5"></div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+              My Projects
+            </h2>
+            <p className="text-muted-foreground text-xl max-w-3xl mx-auto">
+              A showcase of my recent work and technical expertise
+            </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <Card
                 key={index}
-                className="p-6 bg-card border-border hover:border-primary transition-all duration-300 group animate-slide-in-left"
+                className="p-8 bg-card/80 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-500 group animate-slide-in-left card-glow overflow-hidden relative"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-4xl mb-4">{project.emoji}</div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl -z-10 group-hover:scale-150 transition-transform duration-500"></div>
                 
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                <div className="text-5xl mb-6 transform group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">
+                  {project.emoji}
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
                 
-                <p className="text-muted-foreground mb-4 text-sm">
+                <p className="text-muted-foreground mb-6 leading-relaxed">
                   {project.description}
                 </p>
                 
@@ -290,61 +313,76 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="text-5xl">👨‍💻</div>
-            <h2 className="text-4xl md:text-5xl font-bold">Hello, I'm Saad 👋</h2>
-          </div>
-          
-          <div className="space-y-6 text-lg text-muted-foreground">
-            <p>
-              I'm a passionate Frontend Developer and UI/UX Designer focused on creating seamless 
-              and visually engaging user experiences.
-            </p>
+      <section id="about" className="py-32 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background"></div>
+        <div className="max-w-5xl mx-auto relative z-10">
+          <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl p-12 md:p-16 card-glow">
+            <div className="flex items-center gap-4 mb-10">
+              <div className="text-6xl animate-bounce">👨‍💻</div>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Hello, I'm Saad 👋
+              </h2>
+            </div>
             
-            <p>
-              My approach combines modern design thinking with performance-driven development, 
-              ensuring every project looks stunning and works fast.
-            </p>
-            
-            <p>
-              Beyond coding, I enjoy exploring new technologies, mentoring junior developers, 
-              and contributing to innovative projects that solve real problems.
-            </p>
-            
-            <Button size="lg" className="mt-6">
-              <a href="#contact">Let's Collaborate</a>
-            </Button>
+            <div className="space-y-8 text-lg md:text-xl text-muted-foreground leading-relaxed">
+              <p className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                I'm a passionate <span className="text-primary font-semibold">Frontend Developer</span> and{' '}
+                <span className="text-accent font-semibold">UI/UX Designer</span> focused on creating seamless 
+                and visually engaging user experiences.
+              </p>
+              
+              <p className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                My approach combines modern design thinking with performance-driven development, 
+                ensuring every project looks stunning and works fast.
+              </p>
+              
+              <p className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                Beyond coding, I enjoy exploring new technologies, mentoring junior developers, 
+                and contributing to innovative projects that solve real problems.
+              </p>
+              
+              <div className="pt-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all">
+                  <a href="#contact">Let's Collaborate</a>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-4 bg-card/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Testimonials</h2>
-            <p className="text-muted-foreground text-lg">What others say about working with me</p>
+      <section className="py-32 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-background to-primary/5"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+              Testimonials
+            </h2>
+            <p className="text-muted-foreground text-xl">What others say about working with me</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
               <Card
                 key={index}
-                className="p-8 bg-card border-border animate-slide-in-right"
+                className="p-10 bg-card/80 backdrop-blur-sm border-border/50 animate-slide-in-right card-glow hover:border-accent/50 group relative overflow-hidden"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
-                <p className="text-muted-foreground mb-6 italic">
-                  "{testimonial.content}"
+                <div className="absolute top-0 left-0 w-20 h-20 bg-accent/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500"></div>
+                
+                <div className="text-6xl text-accent/20 mb-4 relative z-10">"</div>
+                
+                <p className="text-muted-foreground mb-8 text-lg italic leading-relaxed relative z-10">
+                  {testimonial.content}
                 </p>
                 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg">
                     {testimonial.initials}
                   </div>
                   <div>
-                    <p className="font-bold">{testimonial.name}</p>
+                    <p className="font-bold text-lg">{testimonial.name}</p>
                     <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                   </div>
                 </div>
@@ -355,36 +393,46 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h2>
-            <p className="text-muted-foreground text-lg">Let's work together!</p>
-            <p className="text-muted-foreground mt-2">
+      <section id="contact" className="py-32 px-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-background to-background"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Get In Touch
+            </h2>
+            <p className="text-xl font-semibold mb-3">Let's work together!</p>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               I'm available for freelance work, collaborations, or full-time roles. Drop me a message and I'll respond promptly.
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-8">
-              <div>
-                <h3 className="font-bold text-xl mb-2">Email</h3>
-                <p className="text-muted-foreground">saadolayinkatajudeen@gmail.com</p>
+            <div className="space-y-10">
+              <div className="group">
+                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
+                  <Mail className="w-6 h-6" />
+                  Email
+                </h3>
+                <p className="text-muted-foreground text-lg">saadolayinkatajudeen@gmail.com</p>
               </div>
               
-              <div>
-                <h3 className="font-bold text-xl mb-2">Phone</h3>
-                <p className="text-muted-foreground">+234(0)8142696998</p>
-                <p className="text-muted-foreground">+234(0)8114965493</p>
+              <div className="group">
+                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
+                  📞 Phone
+                </h3>
+                <p className="text-muted-foreground text-lg">+234(0)8142696998</p>
+                <p className="text-muted-foreground text-lg">+234(0)8114965493</p>
               </div>
               
-              <div>
-                <h3 className="font-bold text-xl mb-2">Location</h3>
-                <p className="text-muted-foreground">Ilorin, Kwara State, Nigeria</p>
+              <div className="group">
+                <h3 className="font-bold text-2xl mb-3 flex items-center gap-2 group-hover:text-primary transition-colors">
+                  📍 Location
+                </h3>
+                <p className="text-muted-foreground text-lg">Ilorin, Kwara State, Nigeria</p>
               </div>
             </div>
             
-            <Card className="p-8 bg-card border-border">
+            <Card className="p-10 bg-card/80 backdrop-blur-sm border-border/50 card-glow">
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
                   <Input
@@ -434,12 +482,15 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-border">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+      <footer className="py-16 px-4 border-t border-border/50 bg-card/30 backdrop-blur-sm relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent"></div>
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-10">
             <div className="text-center md:text-left">
-              <p className="text-xl font-bold">Saad Olayinka Tajudeen</p>
-              <p className="text-muted-foreground mt-2">Frontend Developer & UI/UX Designer</p>
+              <p className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Saad Olayinka Tajudeen
+              </p>
+              <p className="text-muted-foreground mt-3 text-lg">Frontend Developer & UI/UX Designer</p>
             </div>
             
             <div className="flex gap-6">
@@ -447,38 +498,38 @@ const Index = () => {
                 href="https://github.com/TiggaCodex"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
               >
-                <Github className="w-6 h-6" />
+                <Github className="w-5 h-5" />
               </a>
               <a
                 href="https://www.linkedin.com/in/saad-olayinka-tajudeen-6372a9257"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
               >
-                <Linkedin className="w-6 h-6" />
+                <Linkedin className="w-5 h-5" />
               </a>
               <a
                 href="https://x.com/Savage_Tigga"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
               >
-                <Twitter className="w-6 h-6" />
+                <Twitter className="w-5 h-5" />
               </a>
               <a
                 href={`https://wa.me/2348142696998`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="w-12 h-12 rounded-full bg-card border border-border/50 flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent transition-all hover:scale-110"
               >
-                <Mail className="w-6 h-6" />
+                <Mail className="w-5 h-5" />
               </a>
             </div>
           </div>
           
-          <div className="text-center mt-8 text-muted-foreground text-sm">
+          <div className="text-center mt-12 text-muted-foreground">
             © {new Date().getFullYear()} Saad Olayinka Tajudeen. All rights reserved.
           </div>
         </div>
