@@ -39,33 +39,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222 47% 4%;
+    --background: 217 33% 17%;
     --foreground: 210 40% 98%;
-    --card: 222 47% 6%;
+    --card: 217 33% 20%;
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 6%;
+    --popover: 217 33% 20%;
     --popover-foreground: 210 40% 98%;
-    --primary: 271 91% 65%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 222 47% 11%;
+    --secondary: 217 33% 25%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 222 47% 11%;
+    --muted: 217 33% 25%;
     --muted-foreground: 215 20% 65%;
-    --accent: 271 91% 65%;
+    --accent: 271 76% 53%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 222 47% 11%;
-    --input: 222 47% 11%;
-    --ring: 271 91% 65%;
-    --sidebar-background: 222 47% 6%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 221 83% 53%;
+    --sidebar-background: 217 33% 20%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 271 91% 65%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 222 47% 11%;
+    --sidebar-accent: 217 33% 25%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 47% 11%;
-    --sidebar-ring: 271 91% 65%;
+    --sidebar-border: 217 33% 25%;
+    --sidebar-ring: 221 83% 53%;
   }
 }
 
@@ -85,32 +85,14 @@ All colors MUST be HSL.
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
   }
   
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(217 33% 17%) 0%, hsl(221 83% 25%) 50%, hsl(217 33% 17%) 100%);
   }
   
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-  
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-  
-  @keyframes glow {
-    from {
-      text-shadow: 0 0 10px hsl(271 91% 65% / 0.5);
-    }
-    to {
-      text-shadow: 0 0 20px hsl(271 91% 65% / 0.8), 0 0 30px hsl(340 82% 52% / 0.4);
-    }
+  .glow-effect {
+    box-shadow: 0 0 60px hsl(271 76% 53% / 0.4);
   }
 }
