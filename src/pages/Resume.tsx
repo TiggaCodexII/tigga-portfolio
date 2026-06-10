@@ -105,8 +105,8 @@ const Resume = () => {
 
         {/* Header */}
         <Card className="p-6 md:p-10 bg-card/80 backdrop-blur-sm border-border/50 card-glow text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground tracking-tight">
-            Saad Tajudeen Olayinka
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+            <span className="gold-text">Saad Tajudeen Olayinka</span>
           </h1>
           <p className="mt-2 text-primary font-medium">Frontend Developer</p>
 
