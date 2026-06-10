@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Github, Linkedin, Twitter, Mail, Code2, Palette, Users, Wrench, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { Link } from "react-router-dom";
 import projectImage from "@/assets/lascotstudios-6.jpg";
 
 const contactSchema = z.object({
@@ -174,7 +175,7 @@ const Index = () => {
                   <a href="#contact">Hire Me</a>
                 </Button>
                 <Button size="default" variant="outline" className="rounded-full px-6 border-foreground/20 hover:bg-card">
-                  View Resume
+                  <Link to="/resume">View Resume</Link>
                 </Button>
                 <Button size="default" variant="outline" className="rounded-full px-6 border-foreground/20 hover:bg-card">
                   <a href="#portfolio">My Work</a>
