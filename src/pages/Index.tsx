@@ -536,6 +536,12 @@ const Index = () => {
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Saad Tigga. All rights reserved.
           </p>
+          <Link
+            to="/admin"
+            className="text-[11px] text-muted-foreground/50 hover:text-primary transition-colors"
+          >
+            Admin
+          </Link>
         </div>
       </footer>
     </div>
