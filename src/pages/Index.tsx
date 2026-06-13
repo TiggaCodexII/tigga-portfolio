@@ -519,7 +519,7 @@ const Index = () => {
                 icon: <Linkedin className="w-4 h-4" />,
               },
               { href: "https://x.com/Savage_Tigga", icon: <Twitter className="w-4 h-4" /> },
-              { href: "https://wa.me/2348142696998", icon: <Mail className="w-4 h-4" /> },
+              { href: "https://wa.me/2348142696998", icon: <WhatsAppIcon className="w-4 h-4" /> },
             ].map((s, i) => (
               <a
                 key={i}
