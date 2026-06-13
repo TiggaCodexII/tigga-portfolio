@@ -38,6 +38,18 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.298 0 .595.042.88.124V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+  </svg>
+);
+
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   email: z.string().email("Invalid email address").max(255),
@@ -532,6 +544,10 @@ const Index = () => {
               },
               { href: "https://x.com/Savage_Tigga", icon: <Twitter className="w-4 h-4" /> },
               { href: "https://wa.me/2348142696998", icon: <WhatsAppIcon className="w-4 h-4" /> },
+              {
+                href: "https://www.tiktok.com/@tiggadevs",
+                icon: <TikTokIcon className="w-4 h-4" />,
+              },
             ].map((s, i) => (
               <a
                 key={i}
