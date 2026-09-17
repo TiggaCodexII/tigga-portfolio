@@ -10,6 +10,8 @@ interface Submission {
   name: string;
   email: string;
   message: string;
+  company: string | null;
+  project_type: string | null;
   created_at: string;
 }
 
@@ -145,6 +147,20 @@ const Admin = () => {
                     {new Date(s.created_at).toLocaleString()}
                   </span>
                 </div>
+                {(s.company || s.project_type) && (
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {s.company && (
+                      <span className="rounded-full border border-border px-3 py-1 text-[11px] text-muted-foreground">
+                        {s.company}
+                      </span>
+                    )}
+                    {s.project_type && (
+                      <span className="rounded-full border border-primary/40 px-3 py-1 text-[11px] text-primary">
+                        {s.project_type}
+                      </span>
+                    )}
+                  </div>
+                )}
                 <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-wrap">
                   {s.message}
                 </p>
