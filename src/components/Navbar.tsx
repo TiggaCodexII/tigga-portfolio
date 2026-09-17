@@ -1,26 +1,38 @@
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+
+const links = [
+  { id: "home", label: "Home" },
+  { id: "capabilities", label: "What I Build" },
+  { id: "work", label: "Work" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
+];
+
 const Navbar = () => {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const goToSection = (id: string) => {
+    setOpen(false);
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`);
+      return;
     }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const links = [
-    { id: "home", label: "Home" },
-    { id: "services", label: "Services" },
-    { id: "portfolio", label: "Portfolio" },
-    { id: "about", label: "About" },
-    { id: "contact", label: "Contact" },
-  ];
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-border">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
           <button
-            onClick={() => scrollToSection("home")}
+            onClick={() => goToSection("home")}
             className="flex items-center gap-2 font-display text-lg font-extrabold"
+            aria-label="Back to top"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               S
@@ -28,19 +40,42 @@ const Navbar = () => {
             <span className="gold-text hidden sm:inline">Saad Olayinka</span>
           </button>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden items-center gap-1 md:flex">
             {links.map((link) => (
               <button
                 key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="px-4 py-2 text-sm text-muted-foreground hover:text-primary rounded-full hover:bg-primary/10 transition-colors"
+                onClick={() => goToSection(link.id)}
+                className="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
               >
                 {link.label}
               </button>
             ))}
           </div>
+
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:text-primary md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+
+      {open && (
+        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 md:hidden">
+          {links.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => goToSection(link.id)}
+              className="block w-full rounded-xl px-4 py-3 text-left text-sm text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
+            >
+              {link.label}
+            </button>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };

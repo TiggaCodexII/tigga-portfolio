@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -15,16 +16,21 @@ import {
   Mail,
   Phone,
   MapPin,
+  LayoutDashboard,
+  Globe,
+  Boxes,
+  Search,
+  Ruler,
   Code2,
-  Palette,
-  Users,
-  Wrench,
+  ShieldCheck,
+  Rocket,
   ArrowUpRight,
-  Sparkles,
   FileText,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import projectImage from "@/assets/lascotstudios-6.jpg";
+import ProjectCard from "@/components/ProjectCard";
+import { projects } from "@/data/projects";
+import portraitImage from "@/assets/lascotstudios-6.jpg";
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
@@ -53,6 +59,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 const contactSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   email: z.string().email("Invalid email address").max(255),
+  company: z.string().max(120).optional(),
+  projectType: z.string().max(120).optional(),
   message: z.string().min(10, "Message must be at least 10 characters").max(1000),
 });
 
@@ -60,6 +68,14 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 const Index = () => {
   const { toast } = useToast();
+  const location = useLocation();
+
+  useEffect(() => {
+    const id = location.hash.replace("#", "");
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth" }));
+  }, [location.hash]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -78,6 +94,8 @@ const Index = () => {
         {
           name: data.name,
           email: data.email,
+          company: data.company || null,
+          project_type: data.projectType || null,
           message: data.message,
         },
       ]);
@@ -85,8 +103,8 @@ const Index = () => {
       if (error) throw error;
 
       toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out. I'll get back to you soon!",
+        title: "Message received",
+        description: "Thanks for reaching out — I'll reply within 24 hours.",
       });
       reset();
     } catch (error) {
@@ -100,72 +118,67 @@ const Index = () => {
     }
   };
 
-  const stats = [
-    { value: "20+", label: "Projects Shipped" },
-    { value: "3rd", label: "Kwara AI Hackathon" },
-    { value: "100%", label: "Client Focused" },
+  const featured = projects.filter((p) => p.featured);
+  const rest = projects.filter((p) => !p.featured);
+
+  const capabilities = [
+    {
+      icon: <LayoutDashboard className="h-6 w-6" />,
+      title: "Business Management Systems",
+      description:
+        "Internal systems that replace spreadsheets and paper records: member and customer databases, approval workflows, dashboards and role-based access.",
+      points: ["Admin dashboards", "Approval workflows", "Records & reporting"],
+    },
+    {
+      icon: <Globe className="h-6 w-6" />,
+      title: "Customer-Facing Web Applications",
+      description:
+        "Product and service experiences built for the people who buy: clear structure, fast loading, mobile-first, and a short path from interest to action.",
+      points: ["Product catalogues", "Enquiry & order flows", "Landing experiences"],
+    },
+    {
+      icon: <Boxes className="h-6 w-6" />,
+      title: "Digital Product Development",
+      description:
+        "Turning an idea or an offline process into a working product — data model, interface, and the workflow that connects them, built to be extended.",
+      points: ["Product thinking", "Data modelling", "Scalable component systems"],
+    },
   ];
 
-  const services = [
-    {
-      icon: <Code2 className="w-6 h-6" />,
-      title: "Web Development",
-      description: "Responsive, high-performance websites using modern frameworks and clean code.",
-    },
-    {
-      icon: <Palette className="w-6 h-6" />,
-      title: "UI/UX Design",
-      description: "Intuitive interfaces with a focus on user experience and visual harmony.",
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Brand Strategy",
-      description: "Define your digital identity through consistent, impactful design.",
-    },
-    {
-      icon: <Wrench className="w-6 h-6" />,
-      title: "Optimization",
-      description: "Performance audits, SEO, and code improvements for smooth journeys.",
-    },
+  const capabilityStack = [
+    { label: "Languages", value: "JavaScript, TypeScript" },
+    { label: "Frontend", value: "React, HTML5, CSS3, Tailwind CSS" },
+    { label: "Backend & services", value: "Firebase (Authentication, Firestore), cloud databases" },
+    { label: "Architecture", value: "Component-based architecture, reusable design systems" },
+    { label: "Tooling", value: "Git, GitHub, version control, responsive development" },
+    { label: "Practices", value: "Clean code, UI/UX principles, accessibility, performance" },
   ];
 
-  const projects = [
+  const process = [
     {
-      title: "GreenGov — Smart Waste Management",
-      description:
-        "AI-powered waste management platform for Kwara State with multilingual chatbot, real-time tracking, and geofencing.",
-      tech: ["React", "TypeScript", "Supabase", "AI/ML", "Mapbox"],
-      demoLink: "https://kwara-smart-waste-ai.lovable.app/greengov",
-      featured: true,
+      icon: <Search className="h-5 w-5" />,
+      title: "Understand",
+      description: "Learn the business, the people using it and the process being replaced.",
     },
     {
-      title: "SwiftDrop",
-      description:
-        "Modern delivery & logistics web app that lets users track their deliveries seamlessly.",
-      tech: ["Vite", "React", "Tailwind", "JavaScript"],
-      liveLink: "https://swifdrop.netlify.app/",
-      codeLink: "https://github.com/TiggaCodex/Swiftdropcollab",
+      icon: <Ruler className="h-5 w-5" />,
+      title: "Structure",
+      description: "Map the data, the workflow and the screens before any interface is built.",
     },
     {
-      title: "Task Manager App",
-      description: "A clean productivity app for tracking and managing daily tasks efficiently.",
-      tech: ["React", "Firebase", "Framer Motion"],
+      icon: <Code2 className="h-5 w-5" />,
+      title: "Build",
+      description: "Implement in typed, reusable components so the product can keep growing.",
     },
     {
-      title: "Portfolio Website",
-      description: "Personal portfolio showcasing modern web design and animations.",
-      tech: ["Vite", "PostCSS", "EmailJS"],
-      liveLink: "https://tiggaportfolio.netlify.app/",
+      icon: <ShieldCheck className="h-5 w-5" />,
+      title: "Test",
+      description: "Check real flows, edge cases, devices and performance before handover.",
     },
     {
-      title: "E-Commerce Platform",
-      description: "Full-featured online store with cart, checkout, and admin panel.",
-      tech: ["React", "Node.js", "MongoDB"],
-    },
-    {
-      title: "Weather App",
-      description: "Real-time weather forecasting app with location-based data.",
-      tech: ["React", "OpenWeather API", "CSS"],
+      icon: <Rocket className="h-5 w-5" />,
+      title: "Launch & improve",
+      description: "Ship, watch how it is actually used, then refine what gets in the way.",
     },
   ];
 
@@ -186,89 +199,87 @@ const Index = () => {
     },
   ];
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-background dark text-foreground antialiased">
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section
         id="home"
-        className="relative min-h-screen flex items-center overflow-hidden hero-gradient pt-28 pb-16 px-4"
+        className="hero-gradient relative flex items-center overflow-hidden px-4 pt-28 pb-16 md:min-h-screen md:pb-24"
       >
-        <div className="max-w-6xl mx-auto w-full relative z-10">
-          <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-stretch">
-            {/* Main intro tile */}
-            <div className="lg:col-span-7 bento-tile gold-border p-8 md:p-12 flex flex-col justify-center">
-              <span className="inline-flex items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary mb-6">
-                <Sparkles className="w-3.5 h-3.5" />
-                Available for new projects
+        <div className="relative z-10 mx-auto w-full max-w-6xl">
+          <div className="grid items-stretch gap-5 lg:grid-cols-12">
+            <div className="bento-tile gold-border flex flex-col justify-center p-8 md:p-12 lg:col-span-7">
+              <span className="mb-6 inline-flex items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
+                Available for freelance projects & full-time roles
               </span>
-              <p className="text-muted-foreground text-base md:text-lg mb-2">Hi, I'm</p>
-              <h1 className="font-display text-5xl md:text-7xl font-extrabold leading-[0.95] mb-4">
-                Saad <span className="gold-text">Olayinka</span>
+
+              <h1 className="font-display text-4xl font-extrabold leading-[1.05] md:text-6xl">
+                Saad Olayinka
+                <br />
+                <span className="gold-text">Tajudeen</span>
               </h1>
-              <p className="text-lg md:text-xl text-foreground/90 font-medium mb-3">
-                Frontend Developer & UI/UX Designer
+
+              <p className="mt-5 text-lg font-semibold text-primary md:text-xl">
+                Frontend Developer & Digital Product Builder
               </p>
-              <p className="text-sm md:text-base text-muted-foreground max-w-lg mb-8">
-                I craft sleek, high-performing digital experiences with modern design principles
-                and clean, efficient code.
+
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                I build modern web applications, business management systems, dashboards, workflow
+                automation interfaces and customer-facing digital products — turning manual,
+                offline processes into software people actually use.
               </p>
-              <div className="flex flex-wrap gap-3">
+
+              <div className="mt-8 flex flex-wrap gap-3">
                 <Button
-                  asChild
                   size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-7 font-semibold"
+                  onClick={() => scrollTo("work")}
+                  className="rounded-full bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                 >
-                  <a href="#contact">Hire Me</a>
+                  View My Work
+                  <ArrowUpRight className="ml-1 h-4 w-4" />
                 </Button>
                 <Button
-                  asChild
                   size="lg"
                   variant="outline"
-                  className="rounded-full px-7 border-primary/30 hover:bg-primary/10 hover:text-primary"
+                  onClick={() => scrollTo("contact")}
+                  className="rounded-full border-primary/40 font-semibold"
                 >
+                  Let's Work Together
+                </Button>
+                <Button asChild size="lg" variant="ghost" className="rounded-full font-semibold">
                   <Link to="/resume">
-                    <FileText className="w-4 h-4" /> View Resume
+                    <FileText className="mr-1 h-4 w-4" />
+                    View Resume
                   </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full px-7 border-primary/30 hover:bg-primary/10 hover:text-primary"
-                >
-                  <a href="#portfolio">My Work</a>
                 </Button>
               </div>
             </div>
 
-            {/* Image + stats column */}
-            <div className="lg:col-span-5 grid grid-rows-[1fr_auto] gap-6">
-              <div className="bento-tile gold-border glow-effect min-h-[280px]">
+            <div className="grid gap-5 lg:col-span-5">
+              <div className="bento-tile gold-border aspect-[4/3] overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:min-h-[280px]">
                 <img
-                  src={projectImage}
-                  alt="Saad Olayinka"
-                  className="absolute inset-0 w-full h-full object-cover"
+                  src={portraitImage}
+                  alt="Saad Olayinka Tajudeen working at his development setup"
+                  width={1280}
+                  height={800}
+                  className="h-full w-full object-cover object-top"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="font-display text-lg font-bold">Saad Tajudeen</p>
-                  <p className="text-xs text-primary">Ilorin, Nigeria · Open to Remote</p>
-                </div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                {stats.map((s) => (
-                  <div
-                    key={s.label}
-                    className="bento-tile gold-border p-4 text-center flex flex-col justify-center"
-                  >
-                    <p className="font-display text-2xl md:text-3xl font-extrabold gold-text">
-                      {s.value}
-                    </p>
-                    <p className="text-[10px] md:text-xs text-muted-foreground mt-1 leading-tight">
-                      {s.label}
-                    </p>
+              <div className="bento-tile gold-border grid grid-cols-3 divide-x divide-border p-6 text-center">
+                {[
+                  { value: "5", label: "Featured systems" },
+                  { value: "3rd", label: "Kwara AI Summit" },
+                  { value: "React", label: "Core stack" },
+                ].map((s) => (
+                  <div key={s.label} className="px-2">
+                    <p className="font-display text-2xl font-extrabold gold-text">{s.value}</p>
+                    <p className="mt-1 text-[11px] leading-tight text-muted-foreground">{s.label}</p>
                   </div>
                 ))}
               </div>
@@ -277,245 +288,267 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 md:py-28 px-4 relative">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <SectionHeading eyebrow="What I Do" title="My Services" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="bento-tile gold-border p-6 group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                  {service.icon}
-                </div>
-                <h3 className="font-display text-lg font-bold mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {service.description}
+      {/* What I Build */}
+      <section id="capabilities" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="What I Build" title="Software that runs the business" />
+          <div className="grid gap-5 md:grid-cols-3">
+            {capabilities.map((c) => (
+              <div key={c.title} className="bento-tile gold-border p-7 md:p-8">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  {c.icon}
+                </span>
+                <h3 className="mt-5 font-display text-xl font-bold">{c.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {c.description}
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="portfolio" className="py-20 md:py-28 px-4 relative">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <SectionHeading eyebrow="Selected Work" title="My Projects" />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 auto-rows-fr">
-            {projects.map((project, index) => (
-              <div
-                key={index}
-                className={`bento-tile gold-border p-6 flex flex-col ${
-                  project.featured ? "md:col-span-2 lg:col-span-2" : ""
-                }`}
-              >
-                {project.featured && (
-                  <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary mb-4">
-                    <Sparkles className="w-3 h-3" /> Featured
-                  </span>
-                )}
-                <h3 className="font-display text-xl font-bold mb-2">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 flex-1">{project.description}</p>
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {project.tech.slice(0, 5).map((tech, i) => (
-                    <span
-                      key={i}
-                      className="text-[11px] px-2.5 py-1 bg-primary/10 text-primary rounded-full"
-                    >
-                      {tech}
-                    </span>
+                <ul className="mt-5 space-y-2">
+                  {c.points.map((p) => (
+                    <li key={p} className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      {p}
+                    </li>
                   ))}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {project.demoLink && (
-                    <Button asChild size="sm" className="rounded-full text-xs h-8 px-4">
-                      <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
-                        Demo <ArrowUpRight className="w-3 h-3" />
-                      </a>
-                    </Button>
-                  )}
-                  {project.liveLink && (
-                    <Button asChild size="sm" className="rounded-full text-xs h-8 px-4">
-                      <a href={project.liveLink} target="_blank" rel="noopener noreferrer">
-                        Live <ArrowUpRight className="w-3 h-3" />
-                      </a>
-                    </Button>
-                  )}
-                  {project.codeLink && (
-                    <Button
-                      asChild
-                      size="sm"
-                      variant="outline"
-                      className="rounded-full text-xs h-8 px-4 border-primary/30 hover:bg-primary/10 hover:text-primary"
-                    >
-                      <a href={project.codeLink} target="_blank" rel="noopener noreferrer">
-                        Code
-                      </a>
-                    </Button>
-                  )}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 md:py-28 px-4 relative">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <SectionHeading eyebrow="Get To Know Me" title="About Me" />
-          <div className="grid lg:grid-cols-12 gap-4 md:gap-5">
-            <div className="lg:col-span-5 bento-tile gold-border glow-effect min-h-[320px]">
+      {/* Work */}
+      <section id="work" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Selected Work" title="Projects" />
+          <div className="grid gap-5">
+            {featured.map((p) => (
+              <ProjectCard key={p.slug} project={p} variant="featured" />
+            ))}
+          </div>
+          <div className="mt-5 grid gap-5 md:grid-cols-3">
+            {rest.map((p) => (
+              <ProjectCard key={p.slug} project={p} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="About" title="Engineering with product thinking" />
+          <div className="grid gap-5 lg:grid-cols-12">
+            <div className="bento-tile gold-border overflow-hidden lg:col-span-5">
               <img
-                src={projectImage}
-                alt="Saad Olayinka"
-                className="absolute inset-0 w-full h-full object-cover"
+                src={portraitImage}
+                alt="Saad Olayinka Tajudeen at work"
+                loading="lazy"
+                width={1280}
+                height={800}
+                className="h-full w-full object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
             </div>
-            <div className="lg:col-span-7 bento-tile gold-border p-8 md:p-10 flex flex-col justify-center">
-              <h3 className="font-display text-2xl md:text-3xl font-bold mb-5">
-                Hello, I'm Saad <span className="gold-text">👋</span>
-              </h3>
-              <div className="space-y-4 text-sm md:text-base text-muted-foreground">
-                <p>
-                  I'm a passionate <span className="text-primary font-semibold">Frontend Developer</span>{" "}
-                  and <span className="text-primary font-semibold">UI/UX Designer</span> focused on
-                  creating seamless and visually engaging user experiences.
-                </p>
-                <p>
-                  My approach combines modern design thinking with performance-driven development,
-                  ensuring every project looks stunning and works fast.
-                </p>
-                <p>
-                  Beyond coding, I enjoy exploring new technologies, mentoring junior developers, and
-                  contributing to innovative projects that solve real problems.
-                </p>
-              </div>
-              <div className="pt-7">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-7 font-semibold"
-                >
-                  <a href="#contact">Let's Collaborate</a>
-                </Button>
+            <div className="bento-tile gold-border p-8 md:p-10 lg:col-span-7">
+              <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+                I'm a frontend developer based in Ilorin, Nigeria, working with clients remotely. My
+                work sits where engineering meets business process: I take how an organisation
+                actually operates — its members, records, approvals and customers — and rebuild it
+                as software that is faster, clearer and traceable.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                That means starting with the workflow rather than the screen. I map the data and the
+                decisions first, then build interfaces in typed, reusable React components so the
+                product can keep growing without being rewritten. I care about the details that
+                decide whether software gets used: responsiveness, load speed, accessibility, and
+                whether the next person can find what they need without being trained.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
+                Most recently that has meant cooperative management systems, produce traceability,
+                alumni platforms, logistics interfaces and customer-facing commerce — practical
+                digital transformation for organisations moving off paper and spreadsheets.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <InfoRow icon={<MapPin className="h-4 w-4" />} text="Ilorin, Nigeria — remote friendly" />
+                <InfoRow icon={<Mail className="h-4 w-4" />} text="saadolayinkatajudeen@gmail.com" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 md:py-28 px-4 relative">
-        <div className="max-w-5xl mx-auto relative z-10">
-          <SectionHeading eyebrow="Kind Words" title="Testimonials" />
-          <div className="grid md:grid-cols-2 gap-4 md:gap-5">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bento-tile gold-border p-8">
-                <p className="text-primary text-4xl font-display leading-none mb-3">"</p>
-                <p className="text-sm md:text-base text-foreground/80 mb-6 leading-relaxed">
-                  {testimonial.content}
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold text-sm">
-                    {testimonial.initials}
-                  </div>
-                  <div>
-                    <p className="font-display font-bold">{testimonial.name}</p>
-                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </div>
+      {/* Technical capabilities */}
+      <section id="skills" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeading eyebrow="Technical Capabilities" title="The stack I build with" />
+          <div className="bento-tile gold-border divide-y divide-border">
+            {capabilityStack.map((row) => (
+              <div key={row.label} className="flex flex-col gap-1 p-6 sm:flex-row sm:gap-6 md:p-7">
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary sm:w-48 sm:flex-shrink-0">
+                  {row.label}
+                </span>
+                <span className="text-sm text-muted-foreground md:text-base">{row.value}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 md:py-28 px-4 relative">
-        <div className="max-w-6xl mx-auto relative z-10">
-          <SectionHeading eyebrow="Let's Talk" title="Get In Touch" />
-          <div className="grid lg:grid-cols-12 gap-4 md:gap-5">
-            {/* Contact details */}
-            <div className="lg:col-span-5 grid gap-4 md:gap-5 auto-rows-min">
+      {/* Process */}
+      <section id="process" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="How I Work" title="From process to product" />
+          <ol className="grid gap-5 md:grid-cols-3 lg:grid-cols-5">
+            {process.map((step, i) => (
+              <li key={step.title} className="bento-tile gold-border p-6">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    {step.icon}
+                  </span>
+                  <span className="font-display text-xs font-bold text-muted-foreground">
+                    0{i + 1}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-display text-base font-bold">{step.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeading eyebrow="Kind Words" title="Testimonials" />
+          <div className="grid gap-5 md:grid-cols-2">
+            {testimonials.map((t) => (
+              <figure key={t.name} className="bento-tile gold-border p-8">
+                <p className="mb-3 font-display text-4xl leading-none text-primary">"</p>
+                <blockquote className="mb-6 text-sm leading-relaxed text-foreground/80 md:text-base">
+                  {t.content}
+                </blockquote>
+                <figcaption className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-sm font-bold text-primary-foreground">
+                    {t.initials}
+                  </span>
+                  <span>
+                    <span className="block font-display font-bold">{t.name}</span>
+                    <span className="block text-xs text-muted-foreground">{t.role}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="relative px-4 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Let's Talk" title="Have a system or product to build?" />
+          <div className="grid gap-5 lg:grid-cols-12">
+            <div className="grid auto-rows-min gap-5 lg:col-span-5">
               <div className="bento-tile gold-border p-7">
-                <h3 className="font-display text-xl font-bold mb-2">
-                  Available for freelance & full-time roles
+                <h3 className="font-display text-xl font-bold">
+                  Tell me about the process you want to digitise
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Drop me a message and I'll get back to you within 24 hours.
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  Whether it's an internal system, a dashboard, or a customer-facing product — send
+                  the details and I'll reply within 24 hours with how I'd approach it.
                 </p>
               </div>
+
               <a
                 href="mailto:saadolayinkatajudeen@gmail.com"
-                className="bento-tile gold-border p-5 flex items-center gap-4"
+                className="bento-tile gold-border flex items-center gap-4 p-5"
               >
-                <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 h-5" />
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Mail className="h-5 w-5" />
                 </span>
-                <span className="text-sm text-muted-foreground break-all">
-                  saadolayinkatajudeen@gmail.com
-                </span>
+                <span className="text-sm">saadolayinkatajudeen@gmail.com</span>
               </a>
-              <div className="grid grid-cols-2 gap-4 md:gap-5">
-                <div className="bento-tile gold-border p-5 flex flex-col gap-2">
-                  <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <Phone className="w-5 h-5" />
-                  </span>
-                  <span className="text-xs text-muted-foreground">+234(0)8142696998</span>
-                </div>
-                <div className="bento-tile gold-border p-5 flex flex-col gap-2">
-                  <span className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                    <MapPin className="w-5 h-5" />
-                  </span>
-                  <span className="text-xs text-muted-foreground">Ilorin, Kwara State, Nigeria</span>
-                </div>
+
+              <a
+                href="https://wa.me/2348142696998"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bento-tile gold-border flex items-center gap-4 p-5"
+              >
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <WhatsAppIcon className="h-5 w-5" />
+                </span>
+                <span className="text-sm">+234 814 269 6998 (WhatsApp)</span>
+              </a>
+
+              <div className="bento-tile gold-border flex items-center gap-4 p-5">
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <span className="text-sm">Ilorin, Nigeria — open to remote roles</span>
               </div>
             </div>
 
-            {/* Form */}
-            <div className="lg:col-span-7 bento-tile gold-border p-7 md:p-9">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div>
-                  <Input
-                    placeholder="Your Name *"
-                    {...register("name")}
-                    className="bg-input border-border h-12 rounded-xl"
-                  />
-                  {errors.name && (
-                    <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
-                  )}
+            <div className="bento-tile gold-border p-7 md:p-9 lg:col-span-7">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label="Name" error={errors.name?.message} htmlFor="name">
+                    <Input
+                      id="name"
+                      autoComplete="name"
+                      placeholder="Your full name"
+                      {...register("name")}
+                      className="rounded-xl border-border bg-input"
+                    />
+                  </Field>
+                  <Field label="Email" error={errors.email?.message} htmlFor="email">
+                    <Input
+                      id="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@company.com"
+                      {...register("email")}
+                      className="rounded-xl border-border bg-input"
+                    />
+                  </Field>
                 </div>
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Your Email *"
-                    {...register("email")}
-                    className="bg-input border-border h-12 rounded-xl"
-                  />
-                  {errors.email && (
-                    <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
-                  )}
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label="Project / Company" optional htmlFor="company">
+                    <Input
+                      id="company"
+                      autoComplete="organization"
+                      placeholder="Organisation or project name"
+                      {...register("company")}
+                      className="rounded-xl border-border bg-input"
+                    />
+                  </Field>
+                  <Field label="What would you like to build?" optional htmlFor="projectType">
+                    <Input
+                      id="projectType"
+                      placeholder="e.g. management system, dashboard"
+                      {...register("projectType")}
+                      className="rounded-xl border-border bg-input"
+                    />
+                  </Field>
                 </div>
-                <div>
+
+                <Field label="Message" error={errors.message?.message} htmlFor="message">
                   <Textarea
-                    placeholder="Your Message *"
+                    id="message"
+                    placeholder="Describe the process, product or problem you have in mind."
                     {...register("message")}
-                    className="bg-input border-border min-h-[140px] resize-none rounded-xl"
+                    className="min-h-[150px] resize-none rounded-xl border-border bg-input"
                   />
-                  {errors.message && (
-                    <p className="text-destructive text-xs mt-1">{errors.message.message}</p>
-                  )}
-                </div>
+                </Field>
+
                 <Button
                   type="submit"
                   disabled={isSubmitting}
                   size="lg"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-12 font-semibold"
+                  className="h-12 w-full rounded-xl bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
@@ -526,62 +559,103 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-border bg-card/30 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <footer className="border-t border-border bg-card/30 px-4 py-12 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
           <div>
             <p className="font-display text-xl font-bold gold-text">Saad Olayinka Tajudeen</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              Frontend Developer & UI/UX Designer
+            <p className="mt-1 text-sm text-muted-foreground">
+              Frontend Developer & Digital Product Builder
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <nav aria-label="Social links" className="flex gap-3">
             {[
-              { href: "https://github.com/TiggaCodex", icon: <Github className="w-4 h-4" /> },
+              { href: "https://github.com/TiggaCodex", label: "GitHub", icon: <Github className="h-4 w-4" /> },
               {
                 href: "https://www.linkedin.com/in/saad-olayinka-tajudeen-6372a9257",
-                icon: <Linkedin className="w-4 h-4" />,
+                label: "LinkedIn",
+                icon: <Linkedin className="h-4 w-4" />,
               },
-              { href: "https://x.com/Savage_Tigga", icon: <Twitter className="w-4 h-4" /> },
-              { href: "https://wa.me/2348142696998", icon: <WhatsAppIcon className="w-4 h-4" /> },
+              { href: "https://x.com/Savage_Tigga", label: "X (Twitter)", icon: <Twitter className="h-4 w-4" /> },
+              { href: "https://wa.me/2348142696998", label: "WhatsApp", icon: <WhatsAppIcon className="h-4 w-4" /> },
               {
                 href: "https://www.tiktok.com/@tiggadevs",
-                icon: <TikTokIcon className="w-4 h-4" />,
+                label: "TikTok",
+                icon: <TikTokIcon className="h-4 w-4" />,
               },
-            ].map((s, i) => (
+            ].map((s) => (
               <a
-                key={i}
+                key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary hover:bg-primary/10 transition-all"
+                aria-label={s.label}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-all hover:border-primary hover:bg-primary/10 hover:text-primary"
               >
                 {s.icon}
               </a>
             ))}
-          </div>
+          </nav>
 
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Saad Tigga. All rights reserved.
-          </p>
-          <Link
-            to="/admin"
-            className="text-[11px] text-muted-foreground/50 hover:text-primary transition-colors"
-          >
-            Admin
-          </Link>
+          <div className="flex flex-col items-center gap-2 md:items-end">
+            <Link
+              to="/resume"
+              className="text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              View resume
+            </Link>
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} Saad Olayinka Tajudeen. All rights reserved.
+            </p>
+            <Link
+              to="/admin"
+              className="text-[11px] text-muted-foreground/50 transition-colors hover:text-primary"
+            >
+              Admin
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
   );
 };
 
+const Field = ({
+  label,
+  htmlFor,
+  error,
+  optional,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  error?: string;
+  optional?: boolean;
+  children: React.ReactNode;
+}) => (
+  <div>
+    <Label htmlFor={htmlFor} className="mb-2 block text-xs font-medium text-muted-foreground">
+      {label}
+      {optional && <span className="ml-1 text-muted-foreground/60">(optional)</span>}
+    </Label>
+    {children}
+    {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
+  </div>
+);
+
+const InfoRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+  <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary/30 px-4 py-3">
+    <span className="text-primary">{icon}</span>
+    <span className="text-xs text-muted-foreground">{text}</span>
+  </div>
+);
+
 const SectionHeading = ({ eyebrow, title }: { eyebrow: string; title: string }) => (
-  <div className="mb-10 md:mb-14 text-center">
-    <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-primary mb-3">
+  <div className="mb-10 text-center md:mb-14">
+    <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.25em] text-primary">
       {eyebrow}
     </span>
-    <h2 className="font-display text-3xl md:text-5xl font-extrabold">{title}</h2>
+    <h2 className="font-display text-3xl font-extrabold md:text-5xl">{title}</h2>
     <div className="mx-auto mt-4 h-px w-20 bg-gradient-to-r from-transparent via-primary to-transparent" />
   </div>
 );
