@@ -23,6 +23,7 @@ export type Project = {
   loanProducts?: { name: string; details: string[] }[];
   eligibility?: string;
   result?: string;
+  sections?: { title: string; body: string; items?: string[] }[];
 };
 
 export const projects: Project[] = [
@@ -89,31 +90,76 @@ export const projects: Project[] = [
   },
   {
     slug: "zarin-ventures",
-    title: "Zarin Ventures",
-    category: "Customer-Facing Web Application",
-    tagline: "A business-facing web presence with product presentation and direct customer ordering.",
+    title: "Zarin Business Management",
+    category: "Business Management & POS Platform",
+    tagline:
+      "Centralising inventory, point of sale, sales, expenses, finance, staff operations and reporting in one platform.",
     summary:
-      "A customer-facing product and ordering experience for a growing venture: clear product presentation, a structured browsing flow and a direct route from interest to enquiry or order.",
+      "An integrated business management platform that brings inventory, point of sale, sales, expenses, financial reporting, staff operations and business analytics into one centralized system.",
     image: zarinImg,
     featured: true,
-    tags: ["React", "TypeScript", "Commerce UI", "Responsive", "Conversion"],
+    tags: ["React", "TypeScript", "POS", "Inventory", "Role-Based Access"],
     problem:
-      "The business was selling through social media messages alone. Product information was scattered, pricing had to be repeated by hand, and there was no single place to send a customer.",
+      "Managing products, stock, sales, expenses and staff activity across separate processes can make it difficult for a business to maintain accurate records and understand its financial performance. Zarin was designed to bring these operational activities together in one structured system while keeping sensitive business information accessible only to authorized users.",
     approach: [
-      "Structured the product catalogue so items, categories and pricing live in one maintainable place",
-      "Built the browsing flow around a short path from landing to a decision",
-      "Kept the ordering route deliberately low-friction, continuing into the channel customers already use",
-      "Prioritised load speed and mobile layout, since most traffic arrives from a phone",
+      "Structured the platform around the core operational areas of a business: products, inventory, sales, expenses, services, staff and finance",
+      "Built separate administrative and staff experiences so employees can perform their operational duties without accessing sensitive financial or administrative information",
+      "Designed a POS workflow for staff to search products, manage carts, process payments and issue printable receipts",
+      "Connected sales with inventory and financial calculations so completed transactions contribute to stock movement, revenue, cost of goods sold and profit reporting",
+      "Added role-based access control and database-level security to protect sensitive business information",
+      "Added reporting, analytics, reconciliation and audit functionality to give administrators greater visibility over business activity",
     ],
     features: [
-      "Product catalogue with categories and detail views",
-      "Clear pricing and product information layout",
-      "Direct order / enquiry flow",
-      "Mobile-first responsive layout",
-      "Reusable component system for adding new products",
+      "Product and category management",
+      "Inventory and stock movement management",
+      "Staff point-of-sale (POS)",
+      "Product search, category filtering and stock visibility",
+      "Multiple payment methods",
+      "Printable sales receipts",
+      "Staff \"My Sales\" history and daily sales totals",
+      "Administrative sales management and transaction details",
+      "Cost of goods sold and gross profit tracking",
+      "Sales cancellation and reversal",
+      "Expense management",
+      "Financial reporting and profit/loss analysis",
+      "Staff management and role-based permissions",
+      "Shift management and reconciliation",
+      "Service sales management",
+      "Business reports and CSV exports",
+      "Dashboard analytics",
+      "Audit logging and security controls",
     ],
-    stack: ["React", "TypeScript", "Tailwind CSS", "Component architecture"],
-    role: "End-to-end frontend build: layout, component system, product data structure and ordering flow.",
+    sections: [
+      {
+        title: "Point of Sale & Inventory",
+        body: "Staff can search products, filter by category, view stock availability, build orders, select payment methods and generate printable receipts. Sales are connected to inventory movements and historical pricing so administrators can maintain a more accurate record of business activity.",
+      },
+      {
+        title: "Services",
+        body: "Zarin supports both product-based sales and selected service transactions, allowing businesses to record services alongside their regular sales activity. Currently implemented service categories:",
+        items: [
+          "Football Viewing — per customer",
+          "Snooker — per game",
+          "Table Football — per game",
+        ],
+      },
+      {
+        title: "Financial Management",
+        body: "Administrators can track revenue, expenses, cost of goods sold, gross profit, net profit and margins across selected date ranges. Cancelled sales are excluded from relevant financial calculations.",
+      },
+      {
+        title: "Staff & Access Control",
+        body: "Zarin provides separate staff and administrative experiences with role-based permissions. Staff can perform authorized sales operations while sensitive information such as expenses, cost data, financial records and audit information remains restricted to authorized administrative users. Authentication and database-level access controls are part of the platform.",
+      },
+      {
+        title: "Reporting & Analytics",
+        body: "The platform provides business reports, dashboard analytics and CSV exports to help administrators review sales, inventory, services and financial activity.",
+      },
+    ],
+    result:
+      "Zarin brings core business operations into one centralized platform, giving staff a structured way to process sales while giving administrators greater control over inventory, financial records, staff activity and business reporting.",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Supabase"],
+    role: "Product design, frontend engineering, application architecture, workflow implementation, data integration and business-system development.",
   },
   {
     slug: "kwara-cails-alumni-platform",
