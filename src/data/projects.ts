@@ -20,37 +20,72 @@ export type Project = {
   features: string[];
   stack: string[];
   role: string;
+  loanProducts?: { name: string; details: string[] }[];
+  eligibility?: string;
+  result?: string;
 };
 
 export const projects: Project[] = [
   {
     slug: "al-amanah-cooperative",
     title: "Al-Amanah Multipurpose Cooperative Management System",
-    category: "Business Management System",
-    tagline: "Digitising member records, savings and loan workflows for a cooperative society.",
+    category: "Cooperative Loan & Financial Management System",
+    tagline: "Digitising the cooperative's staff loan application, approval and repayment workflow.",
     summary:
-      "A management system that replaces manual cooperative record keeping with structured digital workflows for members, savings contributions and loan applications, with an administrative interface for reviewing and approving requests.",
+      "A digital management system designed to streamline the cooperative's staff loan process, from loan application and eligibility assessment to approval, repayment management and financial reporting.",
     image: alAmanahImg,
     featured: true,
-    tags: ["React", "TypeScript", "Dashboard", "Workflow Automation", "Auth"],
+    tags: ["React", "TypeScript", "Loan Workflow", "Dashboard", "Role-Based Access"],
     problem:
-      "Cooperative societies typically track members, contributions and loan requests across paper ledgers and spreadsheets. Records drift out of sync, approvals are hard to trace and reporting takes days of manual work.",
+      "The cooperative's loan process involved several manual steps across the applicant, bursary, treasurer/auditor and chairman. Applicants had to obtain and complete loan forms, have their salary and deductions calculated, and move the application through the appropriate approval stages. This created unnecessary administrative work and made loan processing and record management harder to coordinate.",
     approach: [
-      "Mapped the existing cooperative workflow — registration, savings contributions, loan request, review, approval — before writing any interface code",
-      "Modelled members, contributions and loan applications as clear data structures so each record has a single source of truth",
-      "Designed an admin-facing dashboard around the decisions officers actually make, rather than around database tables",
-      "Built role-separated access so members and administrators only see what belongs to them",
+      "Studied the existing loan application and approval workflow and translated the manual process into a structured digital workflow",
+      "Replaced the manual salary-calculation stage with structured inputs for gross salary and current total deductions, allowing the system to calculate the applicant's one-third salary threshold and determine eligibility",
+      "Structured the system around the cooperative's actual loan products and their respective repayment rules",
+      "Designed role-based access so administrative functions and sensitive financial information are only available to the appropriate users",
+      "Built the application around a centralized database so loan applications, decisions and financial information can be managed from one system",
     ],
     features: [
-      "Member registration and profile management",
-      "Savings and contribution records per member",
-      "Loan application submission with status tracking",
-      "Administrative review and approval flow",
-      "Dashboard overview of members, contributions and active requests",
-      "Responsive interface usable on phones and desktop",
+      "Staff/member account and profile management",
+      "Digital loan application workflow",
+      "Support for the cooperative's three loan categories: Humanitarian, Commodity and Real Loan",
+      "Automated salary and deduction calculations for loan eligibility",
+      "Loan approval and administrative workflow",
+      "Loan repayment information and tracking",
+      "Administrative dashboard for monitoring cooperative activities",
+      "Financial and operational reporting",
+      "Role-based access for different administrative users",
+      "Responsive interface for desktop and mobile devices",
     ],
-    stack: ["React", "TypeScript", "Tailwind CSS", "Authentication", "Cloud database"],
-    role: "Design and frontend engineering: information architecture, workflow design, UI implementation and data integration.",
+    loanProducts: [
+      {
+        name: "Humanitarian Loan",
+        details: ["Maximum: ₦100,000", "Interest: 0%", "Repayment period: 8 months"],
+      },
+      {
+        name: "Commodity Loan",
+        details: [
+          "Minimum: ₦200,000",
+          "Maximum: ₦500,000",
+          "Interest: 10%",
+          "Repayment period: 12 months",
+        ],
+      },
+      {
+        name: "Real Loan",
+        details: [
+          "Maximum: 3× the staff member's savings in the association",
+          "Interest: 0%",
+          "Repayment period: 24 months",
+        ],
+      },
+    ],
+    eligibility:
+      "Loan eligibility incorporates the cooperative's salary rule: after approval, the applicant's take-home salary must not be below one-third of gross monthly salary. The system presents this calculation clearly rather than requiring the user to work it out manually.",
+    result:
+      "The system provides a structured digital workflow for managing cooperative loans and administration, reducing dependence on manual calculations and paperwork while giving authorized users a centralized view of applications, approvals and financial information.",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Supabase"],
+    role: "Product design, frontend engineering, application architecture, workflow implementation and data integration.",
   },
   {
     slug: "zarin-ventures",
