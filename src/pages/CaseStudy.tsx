@@ -89,6 +89,42 @@ const CaseStudy = () => {
           <List items={project.features} />
         </Block>
 
+        {project.loanProducts && (
+          <Block title="Loan products">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {project.loanProducts.map((product) => (
+                <div key={product.name} className="rounded-xl border border-border p-4">
+                  <h3 className="font-display text-base font-bold">{product.name}</h3>
+                  <ul className="mt-2 space-y-1">
+                    {product.details.map((d) => (
+                      <li key={d} className="text-sm leading-relaxed text-muted-foreground">
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Block>
+        )}
+
+        {project.eligibility && (
+          <Block title="Eligibility">
+            <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+              {project.eligibility}
+            </p>
+          </Block>
+        )}
+
+        {project.result && (
+          <Block title="Result">
+            <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+              {project.result}
+            </p>
+          </Block>
+        )}
+
+
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <Block title="Stack" className="mt-0">
             <ul className="flex flex-wrap gap-2">
