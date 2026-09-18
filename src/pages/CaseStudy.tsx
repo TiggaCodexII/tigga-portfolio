@@ -89,6 +89,20 @@ const CaseStudy = () => {
           <List items={project.features} />
         </Block>
 
+        {project.sections?.map((section) => (
+          <Block key={section.title} title={section.title}>
+            <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+              {section.body}
+            </p>
+            {section.items && (
+              <div className="mt-4">
+                <List items={section.items} />
+              </div>
+            )}
+          </Block>
+        ))}
+
+
         {project.loanProducts && (
           <Block title="Loan products">
             <div className="grid gap-4 sm:grid-cols-3">
