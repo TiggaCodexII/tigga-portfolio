@@ -154,6 +154,8 @@ All colors MUST be HSL.
   }
 }
 
+.resume-page { color: hsl(var(--foreground)); }
+
 /* Resume-only print presentation: the browser Download action uses this same content. */
 @media print {
   @page {
@@ -197,6 +199,7 @@ All colors MUST be HSL.
     font-size: 9pt;
     line-height: 1.5;
   }
+  .resume-header h1 .gold-text { font-size: inherit; line-height: inherit; }
   .resume-project { break-inside: avoid; padding-bottom: 12pt; }
   .resume-page h1, .resume-page h2, .resume-page h3 { break-after: avoid; }
   .resume-page a { text-decoration: none; }
