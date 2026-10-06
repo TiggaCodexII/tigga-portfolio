@@ -153,3 +153,51 @@ All colors MUST be HSL.
     50% { opacity: 0.5; }
   }
 }
+
+/* Resume-only print presentation: the browser Download action uses this same content. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  .resume-page.dark {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
+    --primary: 40 65% 28%;
+    --muted-foreground: 0 0% 25%;
+    --border: 0 0% 80%;
+    min-height: 0;
+    font-size: 10pt;
+  }
+
+  .resume-actions { display: none; }
+  .resume-page > div { max-width: none; padding: 0; }
+  .resume-header, .resume-section {
+    background: hsl(var(--background));
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+  }
+  .resume-header { padding-bottom: 12pt; }
+  .resume-header h1 { font-size: 24pt; }
+  .resume-page .gold-text {
+    background: none;
+    color: hsl(var(--foreground));
+    -webkit-text-fill-color: hsl(var(--foreground));
+  }
+  .resume-section { margin-top: 16pt; }
+  .resume-section h2 { font-size: 15pt; }
+  .resume-section h3 { font-size: 11pt; }
+  .resume-page p, .resume-page li, .resume-page span, .resume-page a {
+    font-size: 9pt;
+    line-height: 1.5;
+  }
+  .resume-project { break-inside: avoid; padding-bottom: 12pt; }
+  .resume-page h1, .resume-page h2, .resume-page h3 { break-after: avoid; }
+  .resume-page a { text-decoration: none; }
+}
