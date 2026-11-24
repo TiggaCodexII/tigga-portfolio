@@ -1,8 +1,8 @@
-import alAmanahImg from "@/assets/project-al-amanah.jpg";
-import zarinImg from "@/assets/project-zarin.jpg";
-import alumniImg from "@/assets/project-alumni.jpg";
-import traceabilityImg from "@/assets/project-traceability.jpg";
-import swiftdropImg from "@/assets/project-swiftdrop.jpg";
+import alAmanahImg from "@/assets/project-al-amanah.webp";
+import zarinImg from "@/assets/project-zarin.webp";
+import alumniImg from "@/assets/project-alumni.webp";
+import traceabilityImg from "@/assets/project-traceability.webp";
+import swiftdropImg from "@/assets/project-swiftdrop.webp";
 
 export type Project = {
   slug: string;

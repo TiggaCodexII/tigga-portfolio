@@ -34,7 +34,7 @@ import Navbar from "@/components/Navbar";
 import ProfessionalExperience from "@/components/ProfessionalExperience";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
-import portraitImage from "@/assets/lascotstudios-6.jpg";
+import portraitImage from "@/assets/lascotstudios-6.webp";
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
