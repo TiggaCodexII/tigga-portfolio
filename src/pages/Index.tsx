@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import {
   Github,
   Linkedin,
@@ -94,6 +93,8 @@ const Index = () => {
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     try {
+      const { supabase } = await import("@/integrations/supabase/client");
+
       const { error } = await supabase.from("contact_submissions").insert([
         {
           name: data.name,
