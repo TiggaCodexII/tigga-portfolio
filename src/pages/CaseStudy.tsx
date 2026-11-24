@@ -12,10 +12,10 @@ const CaseStudy = () => {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     if (project) {
-      document.title = `${project.title} — Case Study | Saad Olayinka Tajudeen`;
+      document.title = `${project.title} — Case Study | Saad Tajudeen Olayinka`;
     }
     return () => {
-      document.title = "Saad Olayinka Tajudeen — Frontend Developer & Digital Product Builder";
+      document.title = "Saad Tajudeen Olayinka — Full-Stack Developer & Business Solutions Engineer";
     };
   }, [project]);
 
@@ -68,12 +68,50 @@ const CaseStudy = () => {
         <figure className="bento-tile mt-10 overflow-hidden">
           <img
             src={project.image}
-            alt={`${project.title} interface`}
+            alt={project.coverType === "graphic" ? `${project.title} project cover` : `${project.title} project image`}
             width={1280}
             height={800}
             className="w-full object-cover"
           />
         </figure>
+
+        {project.coverType === "graphic" && (
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            Branded project cover — not an application screenshot.
+          </p>
+        )}
+
+        <section
+          aria-label="Project overview"
+          className="mt-6 grid gap-3 sm:grid-cols-3"
+        >
+          <div className="bento-tile p-5">
+            <p className="text-xs uppercase tracking-wider text-primary">
+              Project status
+            </p>
+            <p className="mt-2 font-semibold">
+              {project.status ?? "Project"}
+            </p>
+          </div>
+
+          <div className="bento-tile p-5">
+            <p className="text-xs uppercase tracking-wider text-primary">
+              Industry
+            </p>
+            <p className="mt-2 font-semibold">
+              {project.sector ?? project.category}
+            </p>
+          </div>
+
+          <div className="bento-tile p-5">
+            <p className="text-xs uppercase tracking-wider text-primary">
+              Technology
+            </p>
+            <p className="mt-2 font-semibold">
+              {project.stack.slice(0, 2).join(" · ")}
+            </p>
+          </div>
+        </section>
 
         <Block title="The problem">
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
@@ -81,11 +119,11 @@ const CaseStudy = () => {
           </p>
         </Block>
 
-        <Block title="Approach">
+        <Block title="Architecture & implementation">
           <List items={project.approach} />
         </Block>
 
-        <Block title="What it does">
+        <Block title="Core features & functionality">
           <List items={project.features} />
         </Block>
 
@@ -140,7 +178,7 @@ const CaseStudy = () => {
 
 
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <Block title="Stack" className="mt-0">
+          <Block title="Technology stack" className="mt-0">
             <ul className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <li
@@ -152,7 +190,7 @@ const CaseStudy = () => {
               ))}
             </ul>
           </Block>
-          <Block title="My role" className="mt-0">
+          <Block title="My contribution" className="mt-0">
             <p className="text-sm leading-relaxed text-muted-foreground">{project.role}</p>
           </Block>
         </div>

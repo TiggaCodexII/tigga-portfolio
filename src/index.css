@@ -204,3 +204,141 @@ All colors MUST be HSL.
   .resume-page h1, .resume-page h2, .resume-page h3 { break-after: avoid; }
   .resume-page a { text-decoration: none; }
 }
+
+/* Portfolio navigation and accessibility refinements */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Resume Centre print layout */
+@media print {
+  .resume-page {
+    background: #fff !important;
+    color: #111 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+
+  .resume-page .resume-actions {
+    display: none !important;
+  }
+
+  .resume-page > div {
+    width: 100%;
+    max-width: none;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .resume-page .cv-document {
+    background: #fff !important;
+    color: #111 !important;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .resume-page .cv-document * {
+    color: #111 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  .resume-page .cv-header {
+    padding-bottom: 8pt;
+    border-bottom: 1pt solid #222;
+  }
+
+  .resume-page .cv-header h1 {
+    font-size: 22pt;
+    line-height: 1.15;
+    margin: 0;
+  }
+
+  .resume-page .cv-header > p {
+    font-size: 11pt;
+    margin: 4pt 0;
+  }
+
+  .resume-page .cv-contact {
+    display: block;
+    line-height: 1.5;
+    margin-top: 5pt;
+  }
+
+  .resume-page .cv-contact > * {
+    display: inline-block;
+    margin-right: 10pt;
+    font-size: 8.5pt;
+  }
+
+  .resume-page .cv-section {
+    margin-top: 10pt;
+  }
+
+  .resume-page .cv-heading {
+    font-size: 12pt;
+    line-height: 1.25;
+    margin: 0 0 5pt;
+    padding-bottom: 3pt;
+    border-bottom: 0.6pt solid #aaa;
+    break-after: avoid;
+  }
+
+  .resume-page .cv-entry {
+    margin-bottom: 7pt;
+    break-inside: avoid;
+  }
+
+  .resume-page .cv-entry h3 {
+    font-size: 10pt;
+    line-height: 1.3;
+  }
+
+  .resume-page .cv-document p,
+  .resume-page .cv-document li,
+  .resume-page .cv-document dt,
+  .resume-page .cv-document dd {
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+
+  .resume-page .cv-document ul {
+    margin-top: 3pt;
+    padding-left: 13pt;
+  }
+
+  .resume-page .cv-document li {
+    margin-top: 1pt;
+  }
+
+  .resume-page .cv-links {
+    margin-top: 3pt;
+  }
+
+  .resume-page .cv-document a {
+    text-decoration: none;
+  }
+
+  .resume-page .cv-document h2,
+  .resume-page .cv-document h3 {
+    break-after: avoid;
+  }
+}

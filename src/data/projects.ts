@@ -12,6 +12,9 @@ export type Project = {
   summary: string;
   image: string;
   featured?: boolean;
+  status?: string;
+  sector?: string;
+  coverType?: "screenshot" | "graphic";
   tags: string[];
   liveUrl?: string;
   codeUrl?: string;
@@ -243,5 +246,356 @@ export const projects: Project[] = [
     role: "Frontend engineering: state design, component system and interface implementation.",
   },
 ];
+
+
+// Expanded professional project catalogue.
+projects.push(
+{
+  "slug": "my-billpadi",
+  "title": "My Billpadi",
+  "category": "Fintech & Digital Payments",
+  "sector": "Fintech",
+  "status": "Live",
+  "featured": true,
+  "tagline": "A digital platform for everyday utility payments.",
+  "summary": "A Nigerian digital payments platform providing wallet-funded airtime, mobile data, electricity, television subscriptions and other virtual top-up services.",
+  "tags": [
+    "Fintech",
+    "Supabase",
+    "Paystack",
+    "REST APIs",
+    "PWA"
+  ],
+  "liveUrl": "https://mybillpadi.app",
+  "problem": "Customers need a convenient platform for everyday utility payments, while operators need reliable payment processing, supplier integration and transaction accountability.",
+  "approach": [
+    "Developed wallet-based purchasing workflows with transaction records.",
+    "Integrated Paystack for customer wallet funding.",
+    "Implemented supplier integrations with VTPass and Clubkonnect.",
+    "Developed configurable supplier selection and catalogue synchronization.",
+    "Migrated the application to independent Supabase and Cloudflare infrastructure.",
+    "Validated financial workflows and recovered historical application data."
+  ],
+  "features": [
+    "Customer accounts and digital wallets",
+    "Airtime and mobile data purchases",
+    "Electricity and television payments",
+    "Paystack payment integration",
+    "Multiple service supplier integrations",
+    "Transaction history and order tracking",
+    "Administrative financial monitoring",
+    "Supplier dispatch and payment reconciliation",
+    "Customer support and email communication",
+    "Progressive Web Application"
+  ],
+  "sections": [
+    {
+      "title": "Payment Architecture",
+      "body": "Wallet funding and service purchases are handled through structured financial workflows, with payment reconciliation and transaction tracking supporting operational accountability."
+    },
+    {
+      "title": "Supplier Integration",
+      "body": "The platform integrates VTPass and Clubkonnect, providing configurable supplier selection and synchronized service catalogues."
+    },
+    {
+      "title": "Infrastructure Migration",
+      "body": "Migrated from managed Lovable Cloud infrastructure to independent Supabase and Cloudflare hosting, including historical data recovery and operational validation."
+    }
+  ],
+  "result": "A deployed digital payments platform with integrated payment and supplier workflows, independent infrastructure and administrative oversight.",
+  "stack": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Supabase",
+    "PostgreSQL",
+    "Cloudflare Workers",
+    "Paystack",
+    "Resend"
+  ],
+  "role": "Full-stack development, product architecture, payment integration, supplier integration, database migration, deployment and operational maintenance.",
+  "image": "/projects/my-billpadi.svg",
+  "coverType": "graphic"
+},
+{
+  "slug": "zarin-travels",
+  "title": "Zarin Travels & Tours",
+  "category": "Travel Business Management",
+  "sector": "Business Systems",
+  "status": "Deployed",
+  "featured": true,
+  "tagline": "Centralized client, payment and commission management.",
+  "summary": "A travel business management application designed to centralize client registration, payments, outstanding balances, commission recognition and financial reporting.",
+  "tags": [
+    "React",
+    "Supabase",
+    "Finance",
+    "Business Automation"
+  ],
+  "problem": "Travel businesses need to manage multiple client payments, outstanding balances and commissions without relying on disconnected manual records.",
+  "approach": [
+    "Modelled client registration and payment records.",
+    "Structured commission recognition around completed client payments.",
+    "Designed administrative dashboards and reporting workflows.",
+    "Migrated the application to independent Supabase infrastructure."
+  ],
+  "features": [
+    "Client registration and management",
+    "Sequential client references",
+    "Payment and outstanding balance tracking",
+    "Local and international commission management",
+    "Commission recognition upon full payment",
+    "Backdated transaction entry",
+    "Operational reminders and reports"
+  ],
+  "result": "A centralized application for monitoring travel business records, client payments and financial performance.",
+  "stack": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Supabase",
+    "PostgreSQL",
+    "Cloudflare"
+  ],
+  "role": "Product development, business workflow implementation, database integration, authentication configuration and cloud deployment.",
+  "image": "/projects/zarin-travels.svg",
+  "coverType": "graphic"
+},
+{
+  "slug": "bmb-bakery",
+  "title": "BMB Bakery Management",
+  "category": "Production & Inventory Management",
+  "sector": "Business Systems",
+  "status": "Project",
+  "tagline": "Connecting raw materials, production costs and bakery sales.",
+  "summary": "A bakery management system designed around raw material purchases, production batches, finished goods, inventory movements, sales and profitability.",
+  "tags": [
+    "Production",
+    "Inventory",
+    "Cost Accounting",
+    "Dashboard"
+  ],
+  "problem": "Bakery operations require visibility into raw material consumption, production costs, finished goods, wastage and sales performance.",
+  "approach": [
+    "Structured raw material and finished goods inventory separately.",
+    "Designed weighted-average inventory costing workflows.",
+    "Modelled production batches and product output.",
+    "Connected production, sales and financial reporting requirements."
+  ],
+  "features": [
+    "Raw material purchases and inventory",
+    "Weighted-average costing",
+    "Production batch management",
+    "Finished goods tracking",
+    "Damaged, burnt, returned and unsold goods",
+    "Sales and receivables",
+    "Profit and loss reporting",
+    "Cashier and administrator workflows"
+  ],
+  "stack": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Database Integration"
+  ],
+  "role": "Business process modelling, product architecture, inventory workflow design and application development.",
+  "image": "/projects/bmb-bakery.svg",
+  "coverType": "graphic"
+},
+{
+  "slug": "alumni-voting",
+  "title": "Alumni Voting Platform",
+  "category": "Electronic Voting System",
+  "sector": "Institutional Technology",
+  "status": "Project",
+  "tagline": "Privacy-conscious electronic elections for alumni associations.",
+  "summary": "An electronic voting platform designed to support structured alumni elections, voter eligibility, ballot privacy and controlled publication of election results.",
+  "tags": [
+    "Voting",
+    "Supabase",
+    "PostgreSQL",
+    "Security"
+  ],
+  "problem": "Alumni elections need a practical digital voting process that preserves ballot privacy, prevents duplicate votes and provides controlled election administration.",
+  "approach": [
+    "Designed election, candidate and voter data structures.",
+    "Structured voting rules around one eligible vote per position.",
+    "Designed database-level access controls for ballot privacy.",
+    "Separated voting operations from administrative result management."
+  ],
+  "features": [
+    "Election and position management",
+    "Candidate management",
+    "Voter eligibility controls",
+    "One vote per eligible voter per position",
+    "Ballot privacy controls",
+    "Controlled results publication",
+    "Administrative election workflows"
+  ],
+  "stack": [
+    "React",
+    "TypeScript",
+    "Supabase",
+    "PostgreSQL",
+    "Row Level Security"
+  ],
+  "role": "Product architecture, voting workflow design, database security and application development.",
+  "image": "/projects/alumni-voting.svg",
+  "coverType": "graphic"
+},
+{
+  "slug": "moneymap",
+  "title": "MoneyMap",
+  "category": "AI-Assisted Personal Finance",
+  "sector": "Fintech",
+  "status": "Project",
+  "tagline": "Receipt-first expense tracking and financial organization.",
+  "summary": "A personal expense management product designed around receipt capture, assisted transaction extraction, expense classification and financial visibility.",
+  "tags": [
+    "AI",
+    "OCR",
+    "Personal Finance",
+    "PWA"
+  ],
+  "problem": "Manual expense entry creates friction and makes it difficult for individuals to maintain consistent financial records.",
+  "approach": [
+    "Designed a receipt-first expense capture experience.",
+    "Structured assisted extraction and categorization workflows.",
+    "Designed duplicate detection and expense review processes.",
+    "Focused on mobile-first personal finance management."
+  ],
+  "features": [
+    "Receipt capture",
+    "AI-assisted transaction extraction",
+    "Expense categorization",
+    "Duplicate detection",
+    "Expense history and financial summaries",
+    "Mobile-first application experience"
+  ],
+  "stack": [
+    "React",
+    "TypeScript",
+    "AI Integration",
+    "OCR",
+    "PWA"
+  ],
+  "role": "Product design, application development and financial workflow architecture.",
+  "image": "/projects/moneymap.svg",
+  "coverType": "graphic"
+},
+{
+  "slug": "zarin-product-showcase",
+  "title": "Zarin Product Showcase",
+  "category": "Digital Signage Platform",
+  "sector": "Digital Products",
+  "status": "Project",
+  "tagline": "A digital product display for large-format business screens.",
+  "summary": "A digital signage application designed to display products, prices, food items and services on television screens through an automated presentation experience.",
+  "tags": [
+    "Digital Signage",
+    "React",
+    "Multimedia",
+    "4K"
+  ],
+  "problem": "Businesses need an attractive and easily maintainable alternative to static printed menus and product price displays.",
+  "approach": [
+    "Designed a large-screen presentation interface.",
+    "Structured product images, prices and display ordering.",
+    "Designed automated slide transitions and presentation loops.",
+    "Separated content administration from the display experience."
+  ],
+  "features": [
+    "Large-format product presentation",
+    "Product and service price displays",
+    "Automated presentation loops",
+    "Configurable product ordering",
+    "Administrative content management",
+    "Transition and multimedia presentation workflows"
+  ],
+  "stack": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Multimedia UI"
+  ],
+  "role": "Product design, frontend development, digital presentation architecture and content management workflow design.",
+  "image": "/projects/zarin-product-showcase.svg",
+  "coverType": "graphic"
+}
+);
+
+// Update project metadata and preserve existing case studies.
+for (const project of projects) {
+  if (project.slug === "zarin-ventures") {
+    project.status = "Private production";
+    project.sector = "Business Systems";
+    project.featured = true;
+
+    project.features.push(
+      "Department-based business management",
+      "Production batches and cost allocation",
+      "Department-scoped staff operations",
+      "Progressive Web Application"
+    );
+
+    project.sections = [
+      ...(project.sections ?? []),
+      {
+        title: "Departmental & Production Management",
+        body: "The platform separates operational activities across business departments, integrates production batches and tracks inventory consumption, production costs and departmental profitability."
+      },
+      {
+        title: "Infrastructure & Data Recovery",
+        body: "Migrated the application to independent Supabase and Cloudflare infrastructure, with historical transaction recovery, database validation and reconciliation."
+      }
+    ];
+
+    project.stack = [
+      "React", "TypeScript", "Tailwind CSS",
+      "Supabase", "PostgreSQL", "Cloudflare Workers"
+    ];
+
+    project.role = "Full-stack application development, business workflow architecture, database integration, operational reporting, cloud migration and data recovery.";
+  }
+
+  if (project.slug === "al-amanah-cooperative") {
+    project.featured = false;
+    project.sector = "Business Systems";
+    project.status = "Project";
+  }
+
+  if (project.slug === "kwara-cails-alumni-platform") {
+    project.sector = "Institutional Technology";
+    project.status = "Project";
+  }
+
+  if (project.slug === "farm-produce-traceability") {
+    project.sector = "AgriTech";
+    project.status = "Project";
+  }
+
+  if (project.slug === "swiftdrop") {
+    project.sector = "Logistics";
+    project.status = "Project";
+  }
+}
+
+const projectOrder = [
+  "my-billpadi",
+  "zarin-ventures",
+  "zarin-travels",
+  "bmb-bakery",
+  "al-amanah-cooperative",
+  "alumni-voting",
+  "moneymap",
+  "kwara-cails-alumni-platform",
+  "zarin-product-showcase",
+  "farm-produce-traceability",
+  "swiftdrop",
+];
+
+projects.sort(
+  (a, b) => projectOrder.indexOf(a.slug) - projectOrder.indexOf(b.slug)
+);
 
 export const getProject = (slug?: string) => projects.find((p) => p.slug === slug);

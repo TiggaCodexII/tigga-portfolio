@@ -27,7 +27,7 @@ const ProjectCard = ({ project, variant = "default" }: ProjectCardProps) => {
       >
         <img
           src={project.image}
-          alt={`${project.title} interface`}
+          alt={project.coverType === "graphic" ? `${project.title} project cover` : `${project.title} project image`}
           loading="lazy"
           width={1280}
           height={800}
@@ -48,6 +48,25 @@ const ProjectCard = ({ project, variant = "default" }: ProjectCardProps) => {
         <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
           {project.category}
         </span>
+
+        {project.status && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className={cn(
+              "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-medium",
+              project.status === "Live"
+                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+                : "border-border bg-secondary/50 text-muted-foreground"
+            )}>
+              <span className="h-1.5 w-1.5 rounded-full bg-current" />
+              {project.status}
+            </span>
+            {project.sector && (
+              <span className="text-[10px] text-muted-foreground">
+                {project.sector}
+              </span>
+            )}
+          </div>
+        )}
 
         <h3
           className={cn(

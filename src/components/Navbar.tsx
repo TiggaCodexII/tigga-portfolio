@@ -4,10 +4,12 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { id: "home", label: "Home" },
-  { id: "capabilities", label: "What I Build" },
-  { id: "work", label: "Work" },
+  { id: "capabilities", label: "Services" },
+  { id: "work", label: "Projects" },
   { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
+  { id: "skills", label: "Expertise" },
+  { id: "experience", label: "Experience" },
+  { id: "resume", label: "Résumé" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -18,6 +20,10 @@ const Navbar = () => {
 
   const goToSection = (id: string) => {
     setOpen(false);
+    if (id === "resume") {
+      navigate("/resume");
+      return;
+    }
     if (location.pathname !== "/") {
       navigate(`/#${id}`);
       return;
@@ -35,12 +41,12 @@ const Navbar = () => {
             aria-label="Back to top"
           >
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              S
+              TC
             </span>
-            <span className="gold-text hidden sm:inline">Saad Olayinka</span>
+            <span className="gold-text hidden sm:inline">TiggaCodex</span>
           </button>
 
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {links.map((link) => (
               <button
                 key={link.id}
@@ -54,7 +60,7 @@ const Navbar = () => {
 
           <button
             onClick={() => setOpen((v) => !v)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:text-primary md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:text-primary lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
@@ -64,7 +70,7 @@ const Navbar = () => {
       </div>
 
       {open && (
-        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 md:hidden">
+        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 lg:hidden">
           {links.map((link) => (
             <button
               key={link.id}

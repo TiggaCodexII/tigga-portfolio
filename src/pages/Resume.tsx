@@ -1,292 +1,478 @@
-import { Link } from "react-router-dom";
-import { getProject } from "@/data/projects";
+import { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { ArrowLeft, Download, Code2, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  MapPin,
-  Phone,
-  Mail,
-  Github,
-  Globe,
-  ExternalLink,
-  Code2,
-  Briefcase,
-  GraduationCap,
-  Award,
-  Download,
-} from "lucide-react";
+import { getProject } from "@/data/projects";
 
-const Resume = () => {
-  const skills = [
-    { label: "Languages", value: "JavaScript, TypeScript" },
-    { label: "Frontend", value: "HTML5, CSS3, React, Tailwind CSS" },
-    { label: "Backend & Data", value: "Supabase, PostgreSQL, Firebase" },
-    { label: "Application Development", value: "Authentication, Role-Based Access Control, REST/API Integration, Responsive Web Applications" },
-    { label: "Tools", value: "Git, GitHub, Vite" },
-    { label: "Practices", value: "Component-Based Architecture, UI/UX Principles, Responsive Design, Clean Code" },
-  ];
+type ResumeEntry = {
+  title: string;
+  subtitle?: string;
+  points: string[];
+  slug?: string;
+};
 
-  const projects = [
-    {
-      slug: "zarin-ventures",
-      title: "Zarin Business Management System",
-      description: "Multi-module business management platform integrating point of sale, inventory, sales, expenses, financial reporting, staff operations, services and business analytics into one centralized system.",
-      points: [
-        "Built staff POS workflows for carts, sales, payment methods and printable receipts, connected to inventory and stock movements.",
-        "Developed administrative dashboards for sales, inventory, expenses, services and financial performance, including revenue, COGS, gross profit, net profit and margins.",
-        "Added staff management, role-based permissions, shift management and sales reconciliation workflows.",
-        "Implemented service-based sales alongside product sales and administrative reporting.",
-        "Used Supabase/PostgreSQL authentication and database-level access controls to protect business data.",
-      ],
-      technology: "React, TypeScript, Tailwind CSS, Supabase, PostgreSQL",
-    },
-    {
-      slug: "al-amanah-cooperative",
-      title: "Al-Amanah Multipurpose Cooperative Loan Management System",
-      description: "Digital cooperative management system designed to streamline staff loan applications, eligibility assessment, approval, repayment management and administrative reporting.",
-      points: [
-        "Digitized loan applications and administrative review, recommendation and approval workflows.",
-        "Implemented salary and deduction calculations for loan eligibility across Humanitarian, Commodity and Real Loan categories and their repayment rules.",
-        "Implemented loan records and repayment tracking.",
-        "Added role-based access and audit logging for sensitive cooperative operations.",
-        "Built reporting and administrative views to monitor loan activity and cooperative records.",
-      ],
-      technology: "React, TypeScript, Tailwind CSS, Supabase, PostgreSQL",
-    },
-    {
-      slug: "kwara-cails-alumni-platform",
-      title: "KWARA CAILS Alumni Platform",
-      description: "Digital alumni platform designed to centralize alumni registration, profile management, alumni visibility and administrative activities.",
-      points: [
-        "Built alumni registration and profile management workflows with authentication and database integration.",
-        "Developed reusable React components for a maintainable application structure.",
-        "Designed responsive interfaces for desktop and mobile users.",
-        "Supported administrative management of alumni information and activities.",
-      ],
-      technology: "React, JavaScript/TypeScript, Firebase",
-    },
-    {
-      slug: "farm-produce-traceability",
-      title: "Farm Produce Traceability System",
-      description: "Web-based agricultural traceability application designed to improve visibility and record management across the farm produce workflow.",
-      points: [
-        "Designed digital traceability workflows for agricultural produce.",
-        "Implemented structured data management using Supabase.",
-        "Built responsive interfaces for practical field and administrative use.",
-        "Focused on clear data visibility and traceability across the production workflow.",
-      ],
-      technology: "React, Supabase, PostgreSQL",
-    },
-    {
-      slug: "swiftdrop",
-      title: "SwiftDrop — Delivery Tracking Product",
-      description: "Delivery and logistics web application designed around order tracking and a straightforward customer delivery experience.",
-      points: [
-        "Designed responsive interfaces for delivery and tracking workflows.",
-        "Implemented tracking-focused user interactions and a clear customer-facing experience for delivery information.",
-        "Focused on usability, responsive design and straightforward navigation.",
-      ],
-      technology: "React, TypeScript, Tailwind CSS",
-    },
-  ];
+const technicalSkills = [
+  ["Languages", "JavaScript, TypeScript, SQL, HTML5, CSS3"],
+  ["Frontend", "React, Tailwind CSS, Shadcn/UI, Redux Toolkit"],
+  ["Backend & Data", "Supabase, PostgreSQL, Firebase, REST APIs, database functions"],
+  ["Infrastructure", "Cloudflare Workers, GitHub, Codespaces, Wrangler, Vite"],
+  ["Payments", "Paystack, VTPass, Clubkonnect, wallet workflows, reconciliation"],
+  ["Security", "Authentication, OAuth 2.0, RBAC, Row Level Security, audit logging"],
+  ["Practices", "Data modelling, responsive design, PWA development, operational testing"],
+];
 
-  return (
-    <div className="resume-page min-h-screen bg-background dark">
-      <div className="max-w-4xl mx-auto px-4 py-10 md:py-16">
-        {/* Top bar */}
-        <div className="resume-actions flex items-center justify-between gap-4 mb-8">
-          <Button asChild variant="outline" className="rounded-full border-foreground/20">
-            <Link to="/#home">
-              <ArrowLeft className="w-4 h-4 mr-1" />
-              Back
-            </Link>
-          </Button>
-          <Button
-            onClick={() => window.print()}
-            className="bg-primary hover:bg-primary/90 rounded-full"
-          >
-            <Download className="w-4 h-4 mr-1" />
-            Download
-          </Button>
-        </div>
+const professionalSkills = [
+  ["Administration", "Records management, institutional coordination, programme administration"],
+  ["Communication", "Stakeholder engagement, correspondence, public and international relations"],
+  ["Management", "Workflow coordination, strategic reporting, team leadership"],
+  ["Technology", "Digital transformation, business process automation, web applications"],
+  ["Data Analysis", "SPSS, Microsoft Excel, data collection and reporting"],
+  ["Office Productivity", "Microsoft Word, Excel and PowerPoint"],
+  ["Domain Knowledge", "Agricultural economics, extension technology and cooperative management"],
+];
 
-        {/* Header */}
-        <Card className="resume-header p-6 md:p-10 bg-card/80 backdrop-blur-sm border-border/50 text-center">
-          <h1 className="text-3xl md:text-5xl font-extrabold tracking-normal break-words">
-            <span className="gold-text">Saad Tajudeen Olayinka</span>
-          </h1>
-          <p className="mt-2 text-primary font-medium">Frontend Developer & Digital Product Builder</p>
+const technicalProjects: ResumeEntry[] = [
+  {
+    title: "My Billpadi",
+    subtitle: "Fintech & Digital Payments | React, Supabase, PostgreSQL, Cloudflare",
+    slug: "my-billpadi",
+    points: [
+      "Developed a wallet-based utility payment platform supporting airtime, data, electricity and television subscriptions.",
+      "Integrated Paystack, VTPass and Clubkonnect with configurable supplier selection and catalogue synchronization.",
+      "Implemented transaction reconciliation, supplier dispatch workflows and administrative financial monitoring.",
+      "Migrated production infrastructure to Supabase and Cloudflare, including historical data recovery and operational validation.",
+    ],
+  },
+  {
+    title: "Zarin Business Management",
+    subtitle: "Business Management & POS | React, TypeScript, PostgreSQL",
+    slug: "zarin-ventures",
+    points: [
+      "Developed integrated POS, inventory, sales, expense and staff management workflows.",
+      "Implemented departmental operations, production batches, cost allocation and profitability reporting.",
+      "Integrated role-based permissions, audit logging, shift management and sales reconciliation.",
+      "Performed database migration, historical transaction recovery and production deployment.",
+    ],
+  },
+  {
+    title: "Zarin Travels & Tours",
+    subtitle: "Travel Operations | React, Supabase, Cloudflare",
+    slug: "zarin-travels",
+    points: [
+      "Developed client registration, payment tracking, outstanding balance and financial reporting workflows.",
+      "Structured commission recognition around fully paid client accounts.",
+      "Configured independent database infrastructure, authentication and cloud deployment.",
+    ],
+  },
+  {
+    title: "Al-Amanah Cooperative",
+    subtitle: "Financial Workflow Automation | React, Supabase",
+    slug: "al-amanah-cooperative",
+    points: [
+      "Digitized cooperative loan applications, eligibility calculations, approvals and repayment tracking.",
+      "Translated salary thresholds and loan product rules into structured application workflows.",
+      "Implemented administrative reporting and role-based access controls.",
+    ],
+  },
+  {
+    title: "Alumni Voting Platform",
+    subtitle: "Institutional Technology | PostgreSQL, Supabase",
+    slug: "alumni-voting",
+    points: [
+      "Designed electronic voting workflows around voter eligibility, ballot privacy and controlled result publication.",
+      "Structured database access controls and one-vote-per-position rules.",
+    ],
+  },
+];
 
-          <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-3 sm:gap-5 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-primary" /> Ilorin, Nigeria (Open to Remote Roles)
-            </span>
-            <span className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-primary" /> 08142696998
-            </span>
-            <a
-              href="mailto:saadolayinkatajudeen@gmail.com"
-              className="flex min-w-0 max-w-full items-center gap-2 break-all hover:text-primary transition-colors"
-            >
-              <Mail className="w-4 h-4 text-primary" /> saadolayinkatajudeen@gmail.com
-            </a>
-            <a
-              href="https://github.com/TiggaCodex"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-w-0 max-w-full items-center gap-2 break-all hover:text-primary transition-colors"
-            >
-              <Github className="w-4 h-4 text-primary" /> github.com/TiggaCodex
-            </a>
-            <a
-              href="https://tiggaportfolio.netlify.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-w-0 max-w-full items-center gap-2 break-all hover:text-primary transition-colors"
-            >
-              <Globe className="w-4 h-4 text-primary" /> Portfolio
-            </a>
-          </div>
-        </Card>
+const technicalExperience: ResumeEntry[] = [
+  {
+    title: "Independent Software Developer — TiggaCodex",
+    subtitle: "Full-Stack Development & Business Solutions",
+    points: [
+      "Design and develop web applications for financial services, business operations and institutional administration.",
+      "Translate operational requirements into data models, application workflows and maintainable interfaces.",
+      "Manage application deployment, database integration, migration, recovery and functional validation.",
+    ],
+  },
+  {
+    title: "Secretary — CAPIR",
+    subtitle: "Kwara State College of Arabic and Islamic Legal Studies",
+    points: [
+      "Support institutional digital transformation through alumni data collection, online platforms and administrative workflows.",
+      "Coordinate records, stakeholder communication and strategic reporting.",
+    ],
+  },
+];
 
-        {/* Professional Summary */}
-        <Section icon={<Briefcase className="w-5 h-5" />} title="Professional Summary">
-          <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-            Frontend Developer & Digital Product Builder focused on building responsive, user-centered
-            web applications and business systems. Experienced in developing real-world digital products
-            using React, TypeScript, Tailwind CSS and Supabase, with a strong focus on business workflows,
-            usability, performance and maintainable application architecture. Comfortable working
-            independently and collaboratively to turn real-world requirements into functional digital products.
-          </p>
-        </Section>
+const professionalExperience: ResumeEntry[] = [
+  {
+    title: "Secretary — CAPIR",
+    subtitle: "Kwara State College of Arabic and Islamic Legal Studies",
+    points: [
+      "Coordinate administrative activities within the Centre for Alumni, Public and International Relations.",
+      "Prepare institutional reports, official correspondence and administrative documentation.",
+      "Support alumni engagement, stakeholder meetings, data collection and institutional partnerships.",
+      "Contribute to international academic outreach, public relations and institutional development initiatives.",
+      "Develop digital tools to improve records management and administrative processes.",
+    ],
+  },
+  {
+    title: "Administrative Officer",
+    subtitle: "CAILS–KWASU Foundation Diploma Programme",
+    points: [
+      "Supported academic programme administration and student records management.",
+      "Coordinated administrative documentation and day-to-day programme activities.",
+      "Provided operational support for academic and institutional requirements.",
+    ],
+  },
+  {
+    title: "Independent Software Developer — TiggaCodex",
+    subtitle: "Business Solutions & Digital Transformation",
+    points: [
+      "Develop business management applications, financial platforms and institutional digital systems.",
+      "Analyse operational processes and translate manual workflows into practical software solutions.",
+      "Support application implementation, database management and digital infrastructure.",
+    ],
+  },
+  {
+    title: "Information Technology Experience",
+    subtitle: "National Centre for Agricultural Mechanization (NCAM)",
+    points: [
+      "Gained practical experience in statistical data processing and analysis using SPSS.",
+      "Supported data management and information technology activities.",
+    ],
+  },
+  {
+    title: "Farm Management Experience",
+    subtitle: "Agricultural Operations",
+    points: [
+      "Gained practical experience in farm management and agricultural operations.",
+      "Applied agricultural economics and extension knowledge to operational activities.",
+    ],
+  },
+  {
+    title: "Teaching & Community Development",
+    subtitle: "National Youth Service Corps (NYSC)",
+    points: [
+      "Taught Economics, Agriculture and Marketing.",
+      "Served as President of the Sustainable Development Goals Community Development Service group.",
+      "Supported community engagement, team coordination and development initiatives.",
+    ],
+  },
+];
 
-        {/* Technical Skills */}
-        <Section icon={<Code2 className="w-5 h-5" />} title="Technical Skills">
-          <div className="grid gap-3">
-            {skills.map((s) => (
-              <div key={s.label} className="flex flex-col sm:flex-row sm:gap-3">
-                <span className="text-sm font-semibold text-foreground sm:w-52 sm:flex-shrink-0">
-                  {s.label}
-                </span>
-                <span className="text-sm text-muted-foreground">{s.value}</span>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* Projects */}
-        <Section icon={<ExternalLink className="w-5 h-5" />} title="Selected Projects">
-          <div className="space-y-8">
-            {projects.map((p) => {
-              const links = getProject(p.slug);
-              return (
-              <article key={p.title} className="resume-project border-b border-border/50 pb-8 last:border-0 last:pb-0">
-                <h3 className="text-base md:text-lg font-bold tracking-normal text-foreground">{p.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.description}</p>
-                <ul className="mt-2 space-y-1.5">
-                  {p.points.map((point, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2 text-sm text-muted-foreground leading-relaxed"
-                    >
-                      <span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  <span className="font-semibold text-foreground">Technology: </span>{p.technology}
-                </p>
-                {(links?.liveUrl || links?.codeUrl) && (
-                  <div className="mt-3 flex flex-wrap gap-3">
-                    {links.liveUrl && <Button asChild variant="outline" size="sm"><a href={links.liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink />Live Demo</a></Button>}
-                    {links.codeUrl && <Button asChild variant="outline" size="sm"><a href={links.codeUrl} target="_blank" rel="noopener noreferrer"><Github />GitHub</a></Button>}
-                  </div>
-                )}
-              </article>
-              );
-            })}
-          </div>
-          <div className="mt-6 border-t border-border/50 pt-5">
-            <h3 className="text-base font-bold tracking-normal text-foreground">Selected Product Development Experience</h3>
-            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Designed and developed production-oriented web applications spanning business management,
-              POS, inventory, cooperative loan management, alumni administration, agricultural traceability and logistics.
-            </p>
-          </div>
-        </Section>
-
-        <Section icon={<Briefcase className="w-5 h-5" />} title="Professional Experience">
-          <h3 className="text-base md:text-lg font-bold tracking-normal text-foreground">
-            KWARA State College of Arabic and Islamic Legal Studies (KWARA CAILS)
-          </h3>
-          <p className="mt-2 text-sm font-semibold text-primary">Secretary / Alumni Officer</p>
-          <p className="mt-1 text-sm text-muted-foreground">Centre for Alumni, Public and International Relations (CAPIR)</p>
-          <ul className="mt-3 space-y-2">
-            {[
-              "Managed alumni-related administrative activities and records.",
-              "Coordinated communication with alumni representatives.",
-              "Developed digital alumni data collection workflows and online surveys.",
-              "Contributed to the planning and development of the alumni platform.",
-              "Supported alumni engagement initiatives and institutional events.",
-            ].map((point) => (
-              <li key={point} className="flex gap-2 text-sm text-muted-foreground leading-relaxed">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" aria-hidden="true" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        </Section>
-
-        <Section icon={<Award className="w-5 h-5" />} title="Achievements">
-          <h3 className="text-base md:text-lg font-bold tracking-normal text-foreground">
-            3rd Place — Kwara AI Summit Hackathon
-          </h3>
-          <ul className="mt-2 space-y-1.5">
-            {[
-              "Collaborated in a team environment to develop and present a working solution under time constraints.",
-              "Contributed to ideation, development and presentation.",
-              "Demonstrated rapid problem-solving and adaptability in a competitive environment.",
-            ].map((point, i) => (
-              <li key={i} className="flex gap-2 text-sm text-muted-foreground leading-relaxed">
-                <span className="text-primary mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-        </Section>
-
-        {/* Education */}
-        <Section icon={<GraduationCap className="w-5 h-5" />} title="Education">
-          <h3 className="text-base md:text-lg font-bold tracking-normal text-foreground">
-            Federal University of Technology, Minna
-          </h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            B.Tech. Agricultural Economics & Extension Technology
-          </p>
-        </Section>
-      </div>
-    </div>
-  );
+const summaries = {
+  technical:
+    "Full-stack developer and business solutions engineer experienced in developing business management systems, fintech applications and institutional digital platforms. Skilled in React, TypeScript, Supabase, PostgreSQL, payment integrations and cloud deployment. Combines business process analysis with application development, database management, security controls and operational validation.",
+  professional:
+    "Multidisciplinary professional with experience in institutional administration, agricultural economics, stakeholder engagement, data analysis and software development. Combines administrative coordination and leadership with practical digital transformation capabilities, including business process automation, database management and development of operational information systems.",
 };
 
 const Section = ({
-  icon,
   title,
   children,
 }: {
-  icon: React.ReactNode;
   title: string;
   children: React.ReactNode;
 }) => (
-  <Card className="resume-section mt-6 p-5 sm:p-6 md:p-8 bg-card/80 backdrop-blur-sm border-border/50">
-    <div className="flex items-center gap-3 mb-4">
-      <span className="text-primary">{icon}</span>
-      <h2 className="text-xl md:text-2xl font-bold tracking-normal text-foreground">{title}</h2>
-    </div>
+  <section className="cv-section mt-8">
+    <h2 className="cv-heading mb-4 border-b border-border pb-2 text-xl font-bold">
+      {title}
+    </h2>
     {children}
-  </Card>
+  </section>
 );
+
+const Entry = ({ entry }: { entry: ResumeEntry }) => {
+  const project = entry.slug ? getProject(entry.slug) : undefined;
+
+  return (
+    <article className="cv-entry mb-5">
+      <h3 className="font-bold text-base">{entry.title}</h3>
+
+      {entry.subtitle && (
+        <p className="mt-1 text-sm text-muted-foreground">
+          {entry.subtitle}
+        </p>
+      )}
+
+      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed">
+        {entry.points.map((point) => (
+          <li key={point}>{point}</li>
+        ))}
+      </ul>
+
+      {(project?.liveUrl || project?.codeUrl) && (
+        <div className="cv-links mt-2 flex flex-wrap gap-3 text-xs">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline"
+            >
+              {project.liveUrl}
+            </a>
+          )}
+
+          {project.codeUrl && (
+            <a
+              href={project.codeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline"
+            >
+              Source repository
+            </a>
+          )}
+        </div>
+      )}
+    </article>
+  );
+};
+
+const Resume = () => {
+  const [params, setParams] = useSearchParams();
+
+  const version =
+    params.get("type") === "professional"
+      ? "professional"
+      : "technical";
+
+  const technical = version === "technical";
+
+  const headline = technical
+    ? "Full-Stack Developer & Business Solutions Engineer"
+    : "Administrative Professional & Digital Transformation Specialist";
+
+  const skills = technical
+    ? technicalSkills
+    : professionalSkills;
+
+  const experience = technical
+    ? technicalExperience
+    : professionalExperience;
+
+  useEffect(() => {
+    const previousTitle = document.title;
+
+    document.title = technical
+      ? "Saad Tajudeen Olayinka - Technical Resume"
+      : "Saad Tajudeen Olayinka - Professional Resume";
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [technical]);
+
+  const changeVersion = (
+    next: "technical" | "professional"
+  ) => {
+    const updated = new URLSearchParams(params);
+    updated.set("type", next);
+    setParams(updated);
+  };
+
+  return (
+    <main className="resume-page dark min-h-screen bg-background text-foreground">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:py-14">
+
+        <div className="resume-actions mb-8 space-y-6">
+
+          <div className="flex flex-wrap items-center justify-between gap-3">
+
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/#home">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Portfolio
+              </Link>
+            </Button>
+
+            <Button
+              onClick={() => window.print()}
+              className="rounded-full"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download PDF
+            </Button>
+
+          </div>
+
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+              TiggaCodex
+            </p>
+
+            <h1 className="mt-3 font-display text-3xl font-extrabold">
+              Résumé Centre
+            </h1>
+
+            <p className="mt-3 text-sm text-muted-foreground">
+              Choose the résumé most relevant to your opportunity.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+
+            <button
+              type="button"
+              aria-pressed={technical}
+              onClick={() => changeVersion("technical")}
+              className={`rounded-2xl border p-5 text-left transition-colors ${
+                technical
+                  ? "border-primary bg-primary/10"
+                  : "border-border bg-card"
+              }`}
+            >
+              <Code2 className="mb-3 h-6 w-6 text-primary" />
+              <span className="block font-bold">Technical résumé</span>
+              <span className="mt-2 block text-xs text-muted-foreground">
+                Software engineering, fintech and cloud solutions
+              </span>
+            </button>
+
+            <button
+              type="button"
+              aria-pressed={!technical}
+              onClick={() => changeVersion("professional")}
+              className={`rounded-2xl border p-5 text-left transition-colors ${
+                !technical
+                  ? "border-primary bg-primary/10"
+                  : "border-border bg-card"
+              }`}
+            >
+              <Briefcase className="mb-3 h-6 w-6 text-primary" />
+              <span className="block font-bold">
+                Professional résumé
+              </span>
+              <span className="mt-2 block text-xs text-muted-foreground">
+                Administration, leadership and digital transformation
+              </span>
+            </button>
+
+          </div>
+
+          <p className="text-center text-xs text-muted-foreground">
+            Select Download PDF, then choose Save as PDF in your browser's print dialog.
+          </p>
+
+        </div>
+
+        <article className="cv-document rounded-3xl border border-border bg-card p-6 md:p-10">
+
+          <header className="cv-header">
+            <h1 className="break-words text-3xl font-extrabold md:text-4xl">
+              Saad Tajudeen Olayinka
+            </h1>
+
+            <p className="mt-2 font-semibold text-primary">
+              {headline}
+            </p>
+
+            <div className="cv-contact mt-4 flex flex-wrap gap-x-4 gap-y-2 break-all text-xs text-muted-foreground">
+              <span>Ilorin, Nigeria</span>
+
+              <a href="tel:+2348142696998">
+                +234 814 269 6998
+              </a>
+
+              <a href="mailto:saadolayinkatajudeen@gmail.com">
+                saadolayinkatajudeen@gmail.com
+              </a>
+
+              <a href="https://github.com/TiggaCodex">
+                github.com/TiggaCodex
+              </a>
+
+              <a href="https://www.linkedin.com/in/saad-olayinka-tajudeen-6372a9257">
+                LinkedIn
+              </a>
+
+              <a href="https://tiggacodexii-tigga-portfolio.tiggacodex.workers.dev">
+                Portfolio
+              </a>
+            </div>
+          </header>
+
+          <Section title="Professional Summary">
+            <p className="text-sm leading-relaxed">
+              {summaries[version]}
+            </p>
+          </Section>
+
+          <Section title={technical ? "Technical Skills" : "Core Competencies"}>
+            <dl className="space-y-2 text-sm">
+              {skills.map(([label, value]) => (
+                <div key={label}>
+                  <dt className="inline font-semibold">{label}: </dt>
+                  <dd className="inline">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Section>
+
+          <Section title="Professional Experience">
+            {experience.map((entry) => (
+              <Entry key={entry.title} entry={entry} />
+            ))}
+          </Section>
+
+          {technical && (
+            <Section title="Selected Software Projects">
+              {technicalProjects.map((entry) => (
+                <Entry key={entry.title} entry={entry} />
+              ))}
+            </Section>
+          )}
+
+          {!technical && (
+            <Section title="Selected Digital Transformation Initiatives">
+              <Entry
+                entry={{
+                  title: "Institutional & Business Process Digitization",
+                  points: [
+                    "Developed alumni registration and profile management platforms.",
+                    "Designed cooperative loan management and electronic voting workflows.",
+                    "Developed operational business systems covering sales, inventory, payments and financial reporting.",
+                  ],
+                }}
+              />
+            </Section>
+          )}
+
+          <Section title="Education">
+            <h3 className="font-bold">
+              Federal University of Technology, Minna
+            </h3>
+            <p className="mt-1 text-sm">
+              B.Tech. Agricultural Economics & Extension Technology — 2021
+            </p>
+          </Section>
+
+          <Section title="Achievements & Leadership">
+            <Entry
+              entry={{
+                title: "3rd Place — Kwara AI Summit Hackathon",
+                points: [
+                  "Contributed frontend development within a three-person team comprising product management, frontend development and design.",
+                  "Collaborated to develop and present a working solution under competitive time constraints.",
+                ],
+              }}
+            />
+
+            {!technical && (
+              <p className="text-sm">
+                Additional leadership experience: SDG CDS President
+                and Ballerz FC Captain (2017–2023).
+              </p>
+            )}
+          </Section>
+
+        </article>
+      </div>
+    </main>
+  );
+};
 
 export default Resume;

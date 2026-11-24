@@ -17,6 +17,9 @@ import {
   Phone,
   MapPin,
   LayoutDashboard,
+  Wallet,
+  Cloud,
+  Building2,
   Globe,
   Boxes,
   Search,
@@ -28,6 +31,7 @@ import {
   FileText,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import ProfessionalExperience from "@/components/ProfessionalExperience";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 import portraitImage from "@/assets/lascotstudios-6.jpg";
@@ -118,40 +122,144 @@ const Index = () => {
     }
   };
 
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
+  const [projectCategory, setProjectCategory] = useState("All");
+  const [projectSearch, setProjectSearch] = useState("");
+
+  const categories = [
+    "All",
+    ...Array.from(new Set(projects.map((p) => p.sector ?? p.category))),
+  ];
+
+  const filteredProjects = projects.filter((p) => {
+    const categoryMatches =
+      projectCategory === "All" ||
+      (p.sector ?? p.category) === projectCategory;
+
+    const searchMatches = [
+      p.title,
+      p.summary,
+      p.category,
+      p.sector ?? "",
+      ...p.tags,
+      ...p.stack,
+    ].join(" ").toLowerCase().includes(projectSearch.trim().toLowerCase());
+
+    return categoryMatches && searchMatches;
+  });
+
+  const isBrowsingAll =
+    projectCategory === "All" && !projectSearch.trim();
+
+  const featured = isBrowsingAll
+    ? filteredProjects.filter((p) => p.featured)
+    : [];
+
+  const rest = isBrowsingAll
+    ? filteredProjects.filter((p) => !p.featured)
+    : filteredProjects;
 
   const capabilities = [
     {
       icon: <LayoutDashboard className="h-6 w-6" />,
       title: "Business Management Systems",
       description:
-        "Internal systems that replace spreadsheets and paper records: member and customer databases, approval workflows, dashboards and role-based access.",
-      points: ["Admin dashboards", "Approval workflows", "Records & reporting"],
+        "Centralized software for managing daily operations, financial records, inventory, staff and reporting.",
+      points: [
+        "Point of sale and inventory",
+        "Financial and operational reporting",
+        "Workflow automation"
+      ],
+    },
+    {
+      icon: <Wallet className="h-6 w-6" />,
+      title: "Fintech & Payment Solutions",
+      description:
+        "Digital payment experiences with structured transaction processing, wallet workflows and third-party service integrations.",
+      points: [
+        "Payment gateway integration",
+        "Wallet and transaction management",
+        "Supplier APIs and reconciliation"
+      ],
     },
     {
       icon: <Globe className="h-6 w-6" />,
-      title: "Customer-Facing Web Applications",
+      title: "Full-Stack Web Applications",
       description:
-        "Product and service experiences built for the people who buy: clear structure, fast loading, mobile-first, and a short path from interest to action.",
-      points: ["Product catalogues", "Enquiry & order flows", "Landing experiences"],
+        "Responsive applications built with maintainable frontend architecture, structured databases and secure backend services.",
+      points: [
+        "React and TypeScript applications",
+        "Supabase and PostgreSQL",
+        "Progressive Web Applications"
+      ],
+    },
+    {
+      icon: <Cloud className="h-6 w-6" />,
+      title: "Cloud & Database Solutions",
+      description:
+        "Independent application infrastructure, database migration and deployment workflows designed for operational reliability.",
+      points: [
+        "Cloudflare deployment",
+        "Database migration and recovery",
+        "Infrastructure configuration"
+      ],
+    },
+    {
+      icon: <Building2 className="h-6 w-6" />,
+      title: "Institutional Digital Transformation",
+      description:
+        "Digital systems that support institutions, associations and organizations in replacing fragmented administrative processes.",
+      points: [
+        "Membership and alumni platforms",
+        "Electronic voting workflows",
+        "Cooperative management"
+      ],
     },
     {
       icon: <Boxes className="h-6 w-6" />,
       title: "Digital Product Development",
       description:
-        "Turning an idea or an offline process into a working product — data model, interface, and the workflow that connects them, built to be extended.",
-      points: ["Product thinking", "Data modelling", "Scalable component systems"],
+        "Practical product development from business requirements and workflow design to implementation, testing and deployment.",
+      points: [
+        "Product architecture",
+        "Data modelling",
+        "Operational validation"
+      ],
     },
   ];
 
   const capabilityStack = [
-    { label: "Languages", value: "JavaScript, TypeScript" },
-    { label: "Frontend", value: "React, HTML5, CSS3, Tailwind CSS" },
-    { label: "Backend & services", value: "Firebase (Authentication, Firestore), cloud databases" },
-    { label: "Architecture", value: "Component-based architecture, reusable design systems" },
-    { label: "Tooling", value: "Git, GitHub, version control, responsive development" },
-    { label: "Practices", value: "Clean code, UI/UX principles, accessibility, performance" },
+    {
+      label: "Languages",
+      value: "JavaScript, TypeScript, SQL"
+    },
+    {
+      label: "Frontend engineering",
+      value: "React, HTML5, CSS3, Tailwind CSS, Shadcn/UI, Redux Toolkit"
+    },
+    {
+      label: "Backend & databases",
+      value: "Supabase, PostgreSQL, Firebase, Database Functions, Data Modelling"
+    },
+    {
+      label: "Cloud & infrastructure",
+      value: "Cloudflare Workers, GitHub, Codespaces, Wrangler, Vite, Database Migration"
+    },
+    {
+      label: "Payments & integrations",
+      value: "Paystack, VTPass, Clubkonnect, REST APIs, Payment Reconciliation"
+    },
+    {
+      label: "Application security",
+      value: "Authentication, OAuth 2.0, Role-Based Access Control, Row Level Security, Audit Logging"
+    },
+    {
+      label: "Business systems",
+      value: "POS, Inventory, Financial Reporting, Workflow Automation, Production Management"
+    },
+    {
+      label: "Engineering practices",
+      value: "Component Architecture, Responsive Design, Accessibility, Operational Testing, PWA Development"
+    },
   ];
 
   const process = [
@@ -216,23 +324,21 @@ const Index = () => {
           <div className="grid items-stretch gap-5 lg:grid-cols-12">
             <div className="bento-tile gold-border flex flex-col justify-center p-8 md:p-12 lg:col-span-7">
               <span className="mb-6 inline-flex items-center gap-2 self-start rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-                Available for freelance projects & full-time roles
+                Available for projects, partnerships & full-time roles
               </span>
 
               <h1 className="font-display text-4xl font-extrabold leading-[1.05] md:text-6xl">
-                Saad Olayinka
+                Saad Tajudeen
                 <br />
-                <span className="gold-text">Tajudeen</span>
+                <span className="gold-text">Olayinka</span>
               </h1>
 
               <p className="mt-5 text-lg font-semibold text-primary md:text-xl">
-                Frontend Developer & Digital Product Builder
+                Full-Stack Developer & Business Solutions Engineer
               </p>
 
               <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                I build modern web applications, business management systems, dashboards, workflow
-                automation interfaces and customer-facing digital products — turning manual,
-                offline processes into software people actually use.
+                I design, develop and deploy digital products that solve real business problems — from financial platforms and operational management systems to secure institutional applications and cloud-based infrastructure.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -265,7 +371,7 @@ const Index = () => {
               <div className="bento-tile gold-border aspect-[4/3] overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:min-h-[280px]">
                 <img
                   src={portraitImage}
-                  alt="Saad Olayinka Tajudeen working at his development setup"
+                  alt="Saad Tajudeen Olayinka working at his development setup"
                   width={1280}
                   height={800}
                   className="h-full w-full object-cover object-top"
@@ -273,9 +379,9 @@ const Index = () => {
               </div>
               <div className="bento-tile gold-border grid grid-cols-3 divide-x divide-border p-6 text-center">
                 {[
-                  { value: "5", label: "Featured systems" },
+                  { value: String(projects.length), label: "Selected projects" },
                   { value: "3rd", label: "Kwara AI Summit" },
-                  { value: "React", label: "Core stack" },
+                  { value: "Full-stack", label: "Development" },
                 ].map((s) => (
                   <div key={s.label} className="px-2">
                     <p className="font-display text-2xl font-extrabold gold-text">{s.value}</p>
@@ -291,7 +397,7 @@ const Index = () => {
       {/* What I Build */}
       <section id="capabilities" className="relative px-4 py-20 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="What I Build" title="Software that runs the business" />
+          <SectionHeading eyebrow="What I Build" title="Digital solutions for real-world businesses" />
           <div className="grid gap-5 md:grid-cols-3">
             {capabilities.map((c) => (
               <div key={c.title} className="bento-tile gold-border p-7 md:p-8">
@@ -319,7 +425,81 @@ const Index = () => {
       {/* Work */}
       <section id="work" className="relative px-4 py-20 md:py-28">
         <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="Selected Work" title="Projects" />
+          <SectionHeading
+            eyebrow="Selected Work"
+            title="Explore my projects"
+          />
+
+          <p className="mx-auto mb-8 max-w-2xl text-center text-sm leading-relaxed text-muted-foreground">
+            Business systems, fintech applications, institutional platforms
+            and digital products designed around real-world requirements.
+          </p>
+
+          <div className="mb-8 space-y-4">
+            <div className="relative mx-auto max-w-xl">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={projectSearch}
+                onChange={(event) => setProjectSearch(event.target.value)}
+                placeholder="Search projects or technologies..."
+                aria-label="Search projects"
+                className="h-12 rounded-full bg-card pl-11"
+              />
+            </div>
+
+            <div
+              className="flex flex-wrap justify-center gap-2"
+              aria-label="Project categories"
+            >
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  type="button"
+                  size="sm"
+                  variant={projectCategory === category ? "default" : "outline"}
+                  aria-pressed={projectCategory === category}
+                  onClick={() => setProjectCategory(category)}
+                  className="rounded-full"
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+
+            <div
+              className="flex items-center justify-between gap-3 text-xs text-muted-foreground"
+              aria-live="polite"
+            >
+              <span>
+                Showing {filteredProjects.length} of {projects.length} projects
+              </span>
+
+              {!isBrowsingAll && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProjectCategory("All");
+                    setProjectSearch("");
+                  }}
+                  className="text-primary hover:underline"
+                >
+                  Clear filters
+                </button>
+              )}
+            </div>
+          </div>
+
+          {filteredProjects.length === 0 && (
+            <div className="bento-tile p-12 text-center">
+              <Search className="mx-auto mb-4 h-8 w-8 text-primary" />
+              <h3 className="font-display text-lg font-bold">
+                No matching projects
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Try another project name, technology or category.
+              </p>
+            </div>
+          )}
           <div className="grid gap-5">
             {featured.map((p) => (
               <ProjectCard key={p.slug} project={p} variant="featured" />
@@ -341,7 +521,7 @@ const Index = () => {
             <div className="bento-tile gold-border overflow-hidden lg:col-span-5">
               <img
                 src={portraitImage}
-                alt="Saad Olayinka Tajudeen at work"
+                alt="Saad Tajudeen Olayinka at work"
                 loading="lazy"
                 width={1280}
                 height={800}
@@ -350,7 +530,7 @@ const Index = () => {
             </div>
             <div className="bento-tile gold-border p-8 md:p-10 lg:col-span-7">
               <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                I'm a frontend developer based in Ilorin, Nigeria, working with clients remotely. My
+                I'm a full-stack developer and business solutions builder based in Ilorin, Nigeria, working with clients remotely. My
                 work sits where engineering meets business process: I take how an organisation
                 actually operates — its members, records, approvals and customers — and rebuild it
                 as software that is faster, clearer and traceable.
@@ -363,9 +543,7 @@ const Index = () => {
                 whether the next person can find what they need without being trained.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground md:text-base">
-                Most recently that has meant cooperative management systems, produce traceability,
-                alumni platforms, logistics interfaces and customer-facing commerce — practical
-                digital transformation for organisations moving off paper and spreadsheets.
+                My recent work spans fintech platforms, business management systems, payment integrations, database migration, cloud infrastructure, cooperative management and institutional digital transformation.
               </p>
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -380,7 +558,7 @@ const Index = () => {
       {/* Technical capabilities */}
       <section id="skills" className="relative px-4 py-20 md:py-28">
         <div className="mx-auto max-w-5xl">
-          <SectionHeading eyebrow="Technical Capabilities" title="The stack I build with" />
+          <SectionHeading eyebrow="Technical Capabilities" title="My technical expertise" />
           <div className="bento-tile gold-border divide-y divide-border">
             {capabilityStack.map((row) => (
               <div key={row.label} className="flex flex-col gap-1 p-6 sm:flex-row sm:gap-6 md:p-7">
@@ -393,6 +571,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Professional Experience */}
+      <ProfessionalExperience />
 
       {/* Process */}
       <section id="process" className="relative px-4 py-20 md:py-28">
@@ -562,9 +743,9 @@ const Index = () => {
       <footer className="border-t border-border bg-card/30 px-4 py-12 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 text-center md:flex-row md:text-left">
           <div>
-            <p className="font-display text-xl font-bold gold-text">Saad Olayinka Tajudeen</p>
+            <p className="font-display text-xl font-bold gold-text">Saad Tajudeen Olayinka</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Frontend Developer & Digital Product Builder
+              Full-Stack Developer & Business Solutions Engineer
             </p>
           </div>
 
@@ -605,7 +786,7 @@ const Index = () => {
               View resume
             </Link>
             <p className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} Saad Olayinka Tajudeen. All rights reserved.
+              © {new Date().getFullYear()} Saad Tajudeen Olayinka. All rights reserved.
             </p>
             <Link
               to="/admin"
