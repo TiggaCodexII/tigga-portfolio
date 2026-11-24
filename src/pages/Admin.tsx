@@ -41,8 +41,6 @@ const Admin = () => {
         navigate("/auth", { replace: true });
         return;
       }
-      // Claim admin if no admin exists yet (first user becomes admin).
-      await supabase.rpc("claim_admin_role");
 
       const { data: isAdmin, error } = await supabase.rpc("has_role", {
         _user_id: sessionData.session.user.id,

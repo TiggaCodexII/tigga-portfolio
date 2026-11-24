@@ -19,7 +19,6 @@ type AuthFormData = z.infer<typeof authSchema>;
 const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -37,20 +36,11 @@ const Auth = () => {
   const onSubmit = async (data: AuthFormData) => {
     setIsSubmitting(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
-        });
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: data.email,
-          password: data.password,
-        });
-        if (error) throw error;
-      }
+      const { error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+      if (error) throw error;
       navigate("/admin", { replace: true });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Authentication failed";
@@ -70,9 +60,7 @@ const Auth = () => {
           Admin <span className="gold-text">Inbox</span>
         </h1>
         <p className="text-sm text-muted-foreground mb-7">
-          {mode === "signin"
-            ? "Sign in to read your contact form messages."
-            : "Create your admin account to read incoming messages."}
+          Sign in to read your contact form messages.
         </p>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -103,22 +91,10 @@ const Auth = () => {
             size="lg"
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-xl h-12 font-semibold"
           >
-            {isSubmitting
-              ? "Please wait..."
-              : mode === "signin"
-              ? "Sign In"
-              : "Create Account"}
+            {isSubmitting ? "Please wait..." : "Sign In"}
           </Button>
         </form>
-        <button
-          type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="mt-6 text-sm text-muted-foreground hover:text-primary transition-colors"
-        >
-          {mode === "signin"
-            ? "First time here? Create your admin account"
-            : "Already have an account? Sign in"}
-        </button>
+        
       </div>
     </div>
   );
