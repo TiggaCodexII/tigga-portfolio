@@ -30,6 +30,7 @@ import {
   FileText,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import Turnstile from "@/components/Turnstile";
 import ProfessionalExperience from "@/components/ProfessionalExperience";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
@@ -80,6 +81,9 @@ const Index = () => {
     if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth" }));
   }, [location.hash]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [verificationReset, setVerificationReset] = useState(0);
+
 
   const {
     register,
@@ -91,35 +95,58 @@ const Index = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
+    if (!turnstileToken) {
+      toast({
+        title: "Verification required",
+        description: "Please complete the human verification.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
+
     try {
-      const { supabase } = await import("@/integrations/supabase/client");
-
-      const { error } = await supabase.from("contact_submissions").insert([
-        {
-          name: data.name,
-          email: data.email,
-          company: data.company || null,
-          project_type: data.projectType || null,
-          message: data.message,
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      ]);
+        body: JSON.stringify({
+          ...data,
+          turnstileToken,
+        }),
+      });
 
-      if (error) throw error;
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || "Unable to send message."
+        );
+      }
 
       toast({
         title: "Message received",
-        description: "Thanks for reaching out — I'll reply within 24 hours.",
+        description: "Thanks for reaching out. I'll be in touch.",
       });
+
       reset();
+
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
+        title: "Unable to send message",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Please try again.",
         variant: "destructive",
       });
+
     } finally {
       setIsSubmitting(false);
+      setTurnstileToken("");
+      setVerificationReset((value) => value + 1);
     }
   };
 
@@ -726,9 +753,14 @@ const Index = () => {
                   />
                 </Field>
 
+                <Turnstile
+                  onToken={setTurnstileToken}
+                  resetKey={verificationReset}
+                />
+
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                   size="lg"
                   className="h-12 w-full rounded-xl bg-primary font-semibold text-primary-foreground hover:bg-primary/90"
                 >
